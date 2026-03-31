@@ -1,0 +1,54 @@
+# Default ignored files
+shelf/
+.idea/workspace.xml
+# Ignored default folder with query files
+queries/
+# Datasource local storage ignored files
+dataSources/
+dataSources.local.xml
+# Editor-based HTTP Client requests
+httpRequests/
+
+# folder where Maven builds project
+/target/
+
+# compiled class files and archives
+*.class
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.tar.bz2
+
+# IntelliJ's local project configuration folders and files
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# not yet used but for the future:
+# Environment variables
+.env
+
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs
+*.log
+
+# SQLite Database Files
+*.db
+*.sqlite
+*.sqlite3
+
+# uploaded Wardrobe Images
+src/main/resources/images/*
+!src/main/resources/images/.gitkeep
+
