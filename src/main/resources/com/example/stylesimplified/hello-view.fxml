@@ -10,5 +10,6 @@
             <Button mnemonicParsing="false" prefHeight="84.0" prefWidth="102.0" text="Add Outfit" />
          </children>
       </VBox>
+      <ChoiceBox nodeOrientation="LEFT_TO_RIGHT" prefHeight="33.0" prefWidth="153.0" />
    </children>
 </TilePane>
