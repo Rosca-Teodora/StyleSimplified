@@ -50,8 +50,15 @@ public class Wardrobe {
         }
     });
 
+    public Set<ClothingItem> getOwnedClothes() {
+        return ownedClothes;
+    }
 
+    public Set<Group> getGroups() {
+        return groups;
+    }
 
-
-
+    public Set<Outfit> getAllOutfits() {
+        return allOutfits;
+    }
 }

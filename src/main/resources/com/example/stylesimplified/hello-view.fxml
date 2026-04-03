@@ -3,13 +3,21 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<TilePane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="648.0" prefWidth="506.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <VBox prefHeight="118.0" prefWidth="137.0">
-         <children>
-            <Button mnemonicParsing="false" prefHeight="84.0" prefWidth="102.0" text="Add Outfit" />
-         </children>
-      </VBox>
-      <ChoiceBox nodeOrientation="LEFT_TO_RIGHT" prefHeight="33.0" prefWidth="153.0" />
+      <TextArea cacheShape="false" focusTraversable="false" prefHeight="61.0" prefWidth="506.0" text="Add the first clothing item!&#10;&#10;1. Name:&#10;" />
+      <TextField prefHeight="23.0" prefWidth="506.0" />
+      <TextArea prefHeight="48.0" prefWidth="519.0" text="2. Image (currently just img path) " />
+      <TextField />
+      <TextArea prefHeight="23.0" prefWidth="506.0" text="3. Type of clothing:" />
+      <MenuButton alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" text="Choose Clothing type" textAlignment="RIGHT">
+        <items>
+          <MenuItem mnemonicParsing="false" text="Bottom (i.e. pants, skirt)" />
+          <MenuItem mnemonicParsing="false" text="Top (i.e. blouse, tshirt, jacket)" />
+            <MenuItem mnemonicParsing="false" text="Accessory (i.e. bag, jewelry)" />
+        </items>
+      </MenuButton>
+      <Button mnemonicParsing="false" text="Add Item" />
+      <ChoiceBox prefWidth="150.0" />
    </children>
-</TilePane>
+</VBox>
