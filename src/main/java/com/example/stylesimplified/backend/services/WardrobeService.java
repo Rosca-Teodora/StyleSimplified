@@ -6,16 +6,16 @@ import com.example.stylesimplified.backend.models.Wardrobe;
 // singleton "menu" class
 // service that manipulates all the CRUD operations
 public class WardrobeService {
-    WardrobeService instance = null;
-    Wardrobe wardrobe;
+    private static WardrobeService instance = null;
+    private final Wardrobe wardrobe;
 
     private WardrobeService(){
         this.wardrobe = new Wardrobe();
     }
 
-    public WardrobeService getInstance() {
-        if (this.instance == null){
-            this.instance = new WardrobeService();
+    public static WardrobeService getInstance() {
+        if (instance == null){
+            instance = new WardrobeService();
         }
 
         return instance;
@@ -28,5 +28,10 @@ public class WardrobeService {
 
     public void removeClothingItem(ClothingItem ci){
         wardrobe.getOwnedClothes().remove(ci);
+        System.out.println("Removed clothing item");
+    }
+
+    public Wardrobe getWardrobe() {
+        return wardrobe;
     }
 }

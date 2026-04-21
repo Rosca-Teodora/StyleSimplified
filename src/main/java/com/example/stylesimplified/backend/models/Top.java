@@ -5,6 +5,12 @@ public class Top extends ClothingItem {
     private String neckline;
     private boolean isOuterwear; // if it's a jacket type or a shirt type (can it be worn over other clothes?)
 
+    public Top(String name, String imgPath, String sleeveLength, String neckline, boolean isOuterwear){
+        super(name, imgPath);
+        this.sleeveLength = sleeveLength;
+        this.neckline = neckline;
+        this.isOuterwear = isOuterwear;
+    }
 
     @Override
     public boolean equals(Object obj){

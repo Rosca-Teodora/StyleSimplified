@@ -5,6 +5,13 @@ public class Accessory extends ClothingItem{
     private String material;
     private String type;
 
+    public Accessory(String name, String imgPath, String placement, String material, String type){
+        super(name, imgPath);
+        this.placement = placement;
+        this.material = material;
+        this.type = type;
+    }
+
     @Override
     public boolean equals(Object obj){
         if (this == obj){ // same mem address

@@ -5,6 +5,12 @@ public class Bottom extends ClothingItem {
     private String waistRise; // low-rise, high-rise etc
     private String length; // shorts, long pants, mid-lenghth
 
+    public Bottom(String name, String imgPath, String fitType, String waistRise, String length){
+        super(name, imgPath);
+        this.fitType = fitType;
+        this.waistRise = waistRise;
+        this.length = length;
+    }
 
     @Override
     public boolean equals(Object obj){

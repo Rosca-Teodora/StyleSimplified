@@ -15,4 +15,9 @@ public abstract class ClothingItem implements Comparable {
     public String getName(){
         return name;
     }
+
+    public ClothingItem(String name, String imgPath){
+        this.name = name;
+        this.imgPath = imgPath;
+    }
 }
