@@ -1,4 +1,4 @@
-package com.example.stylesimplified.backend.controllers;
+package com.example.stylesimplified;
 
 import com.example.stylesimplified.backend.commands.AddClothingCommand;
 import com.example.stylesimplified.backend.commands.Command;
@@ -10,24 +10,14 @@ import com.example.stylesimplified.backend.models.Top;
 import com.example.stylesimplified.backend.services.WardrobeService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
-import javafx.stage.Stage;
-import javafx.stage.FileChooser;
 
-import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -38,8 +28,6 @@ public class AddItemController implements Initializable {
     private TextField imagePathField;
     @FXML
     private ChoiceBox<String> typeChoiceBox;
-    @FXML
-    private ImageView imagePreview;
     @FXML
     private Label statusLabel;
 
@@ -145,28 +133,6 @@ public class AddItemController implements Initializable {
         }
     }
 
-    @FXML
-    void handleSelectImageButton(ActionEvent event) {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Select Image File");
-        fileChooser.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg", "*.gif")
-        );
-
-        Node source = (Node) event.getSource();
-        Stage stage = (Stage) source.getScene().getWindow();
-        File selectedFile = fileChooser.showOpenDialog(stage);
-
-        if (selectedFile != null) {
-            // Setează calea în câmpul de text
-            imagePathField.setText(selectedFile.getAbsolutePath());
-
-            // Creează un obiect Image și îl setează în ImageView
-            Image image = new Image(selectedFile.toURI().toString());
-            imagePreview.setImage(image);
-        }
-    }
-
     private void clearFields() {
         nameField.clear();
         imagePathField.clear();
@@ -179,21 +145,5 @@ public class AddItemController implements Initializable {
         placementInput.clear();
         materialInput.clear();
         accessoryTypeInput.clear();
-        imagePreview.setImage(null);
-    }
-
-    @FXML
-    void handleBackButton(ActionEvent event) throws IOException {
-        navigateTo(event, "wardrobe-view.fxml", "My Wardrobe");
-    }
-
-    private void navigateTo(ActionEvent event, String fxmlFile, String title) throws IOException {
-        String absoluteFxmlPath = "/com/example/stylesimplified/" + fxmlFile;
-        Parent root = FXMLLoader.load(getClass().getResource(absoluteFxmlPath));
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.setTitle(title);
-        stage.show();
     }
 }
