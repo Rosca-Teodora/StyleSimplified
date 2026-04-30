@@ -49,6 +49,5 @@ Thumbs.db
 *.sqlite3
 
 # uploaded Wardrobe Images
-src/main/resources/images/*
-!src/main/resources/images/.gitkeep
+wardrobe_images/*
 

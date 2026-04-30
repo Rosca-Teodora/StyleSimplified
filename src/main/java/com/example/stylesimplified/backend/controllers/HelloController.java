@@ -1,4 +1,4 @@
-package com.example.stylesimplified;
+package com.example.stylesimplified.backend.controllers;
 
 import com.example.stylesimplified.backend.commands.CommandInvoker;
 import javafx.fxml.FXML;
