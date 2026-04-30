@@ -11,29 +11,21 @@ import com.example.stylesimplified.backend.services.WardrobeService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.*;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
-import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 
-import java.io.File;
 import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.ResourceBundle;
 
 public class AddItemController implements Initializable {
-    // general clothing item fields
     @FXML
     private TextField nameField;
     @FXML
-    private ImageView imagePreview;
-    private File selectedImageFile = null; // to remember selected file (for clothing item images)
+    private TextField imagePathField;
     @FXML
     private ChoiceBox<String> typeChoiceBox;
     @FXML
@@ -94,62 +86,15 @@ public class AddItemController implements Initializable {
     }
 
     @FXML
-    void handleSelectImageButton(ActionEvent event) {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Select Image for Clothing Item");
-
-        fileChooser.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg", "*.gif")
-        );
-
-        Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-        File file = fileChooser.showOpenDialog(stage);
-
-        if (file != null) {
-            selectedImageFile = file;
-            try {
-                Image preview = new Image(file.toURI().toString());
-                imagePreview.setImage(preview);
-            } catch (Exception e) {
-                statusLabel.setText("Error loading image preview.");
-                statusLabel.setTextFill(Color.RED);
-            }
-        }
-    }
-
-    @FXML
     void handleAddItemButton(ActionEvent event) {
         String name = nameField.getText();
-        String finalImagePath;
+        String imagePath = imagePathField.getText();
         String type = typeChoiceBox.getValue();
 
         if (name.isEmpty()) {
             statusLabel.setText("Item must have a name!");
             statusLabel.setTextFill(Color.RED);
             return;
-        }
-
-        if (selectedImageFile != null) {
-            try {
-                String fileName = System.currentTimeMillis() + "_" + selectedImageFile.getName();
-                Path destinationDir = Paths.get("wardrobe_images");
-
-                if (!Files.exists(destinationDir)) {
-                    Files.createDirectories(destinationDir);
-                }
-
-                Path destinationPath = destinationDir.resolve(fileName);
-                Files.copy(selectedImageFile.toPath(), destinationPath, StandardCopyOption.REPLACE_EXISTING);
-                finalImagePath = destinationPath.toString();
-
-            } catch (Exception e) {
-                statusLabel.setText("Error saving image: " + e.getMessage());
-                statusLabel.setTextFill(Color.RED);
-                e.printStackTrace();
-                return; // Stop execution if image saving fails
-            }
-        } else {
-            finalImagePath = "images/default.png";
         }
 
         ClothingItem newClothingItem = null;
@@ -159,19 +104,19 @@ public class AddItemController implements Initializable {
                     String sleeveLength = sleeveInput.getText();
                     String neckline = necklineInput.getText();
                     boolean isOuterwear = isOuterwearInput.isSelected();
-                    newClothingItem = new Top(name, finalImagePath, sleeveLength, neckline, isOuterwear);
+                    newClothingItem = new Top(name, imagePath, sleeveLength, neckline, isOuterwear);
                     break;
                 case "Bottom":
                     String fitType = fitTypeInput.getText();
                     String waistRise = waistRiseInput.getText();
                     String length = lengthInput.getText();
-                    newClothingItem = new Bottom(name, finalImagePath, fitType, waistRise, length);
+                    newClothingItem = new Bottom(name, imagePath, fitType, waistRise, length);
                     break;
                 case "Accessory":
                     String placement = placementInput.getText();
                     String material = materialInput.getText();
                     String accessoryType = accessoryTypeInput.getText();
-                    newClothingItem = new Accessory(name, finalImagePath, placement, material, accessoryType);
+                    newClothingItem = new Accessory(name, imagePath, placement, material, accessoryType);
                     break;
             }
 
@@ -185,14 +130,12 @@ public class AddItemController implements Initializable {
         } catch (Exception e) {
             statusLabel.setText("Error creating item: " + e.getMessage());
             statusLabel.setTextFill(Color.RED);
-            e.printStackTrace();
         }
     }
 
     private void clearFields() {
         nameField.clear();
-        imagePreview.setImage(null);
-        selectedImageFile = null;
+        imagePathField.clear();
         sleeveInput.clear();
         necklineInput.clear();
         isOuterwearInput.setSelected(false);
@@ -202,6 +145,5 @@ public class AddItemController implements Initializable {
         placementInput.clear();
         materialInput.clear();
         accessoryTypeInput.clear();
-        typeChoiceBox.setValue("Top");
     }
 }

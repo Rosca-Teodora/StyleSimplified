@@ -12,6 +12,7 @@ public abstract class ClothingItem implements Comparable {
     protected String name;
     protected LocalDate dateUploaded;
     protected Set<Tag> tags = new HashSet<>();
+
     public String getName(){
         return name;
     }
@@ -19,5 +20,9 @@ public abstract class ClothingItem implements Comparable {
     public ClothingItem(String name, String imgPath){
         this.name = name;
         this.imgPath = imgPath;
+    }
+
+    public String getImgPath(){
+        return this.imgPath;
     }
 }
