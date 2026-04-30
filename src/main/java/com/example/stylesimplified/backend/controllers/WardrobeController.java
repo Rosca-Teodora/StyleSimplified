@@ -36,23 +36,30 @@ public class WardrobeController {
             card.setAlignment(Pos.CENTER);
 
             // fiecare item are o poza deci tb creat un ImageView
-            ImageView img = new ImageView();
+            ImageView imgView = new ImageView();
             Label label = new Label(ci.getName()); // label-ul imaginii
 
-            File imageFile = new File(ci.getImgPath());
-            if (imageFile.exists()){
-                img.setImage(new javafx.scene.image.Image(imageFile.toURI().toString()));
+            try {
+                File imageFile = new File(ci.getImgPath());
+                if (imageFile.exists()){
+                    imgView.setImage(new javafx.scene.image.Image(imageFile.toURI().toString()));
+                }
+                else {
+                    System.err.println("Image not found for " + ci.getName() + " at path: " + ci.getImgPath());
+                    // Optional: Set a placeholder image
+                    // imgView.setImage(new javafx.scene.image.Image("/path/to/placeholder.png"));
+                }
+            } catch (Exception e) {
+                System.err.println("Failed to load image for " + ci.getName() + ": " + e.getMessage());
             }
-            else {
-                System.out.println("Image not found for" + ci.getName());
-            }
+
             // formatare necesara pt imagini (altfel ImageView le afiseaza la marimea lor default si acopera TOATA pagina)
-            img.setFitWidth(200);
-            img.setFitHeight(200);
-            img.setPreserveRatio(true);
+            imgView.setFitWidth(200);
+            imgView.setFitHeight(200);
+            imgView.setPreserveRatio(true);
 
 
-            card.getChildren().addAll(img, label);
+            card.getChildren().addAll(imgView, label);
             clothesCard.getChildren().add(card);
         }
 
