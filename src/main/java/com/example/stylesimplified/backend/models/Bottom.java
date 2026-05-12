@@ -1,9 +1,26 @@
 package com.example.stylesimplified.backend.models;
 
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
+
+@DatabaseTable(tableName = "clothing-bottoms")
 public class Bottom extends ClothingItem {
+
+    @DatabaseField(generatedId = true)
+    private int bottomId;
+
+    @DatabaseField
     private String fitType; // skinny, baggy etc
+
+    @DatabaseField
     private String waistRise; // low-rise, high-rise etc
+
+    @DatabaseField
     private String length; // shorts, long pants, mid-lenghth
+
+    public Bottom(){
+        super(null, null);
+    }
 
     public Bottom(String name, String imgPath, String fitType, String waistRise, String length){
         super(name, imgPath);

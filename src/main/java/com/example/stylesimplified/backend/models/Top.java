@@ -1,9 +1,26 @@
 package com.example.stylesimplified.backend.models;
 
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
+
+@DatabaseTable(tableName = "clothing_tops")
 public class Top extends ClothingItem {
+    @DatabaseField(generatedId = true)
+    private int topId;
+
+    @DatabaseField
     private String sleeveLength;
+
+    @DatabaseField
     private String neckline;
+
+    @DatabaseField
     private boolean isOuterwear; // if it's a jacket type or a shirt type (can it be worn over other clothes?)
+
+    // needed default constructor for database handling
+    public Top(){
+        super(null, null);
+    }
 
     public Top(String name, String imgPath, String sleeveLength, String neckline, boolean isOuterwear){
         super(name, imgPath);

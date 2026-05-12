@@ -1,9 +1,26 @@
 package com.example.stylesimplified.backend.models;
 
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
+
+@DatabaseTable(tableName = "clothing-accesories")
 public class Accessory extends ClothingItem{
+
+    @DatabaseField(generatedId = true)
+    private int accessoryId;
+
+    @DatabaseField
     private String placement;
+
+    @DatabaseField
     private String material;
+
+    @DatabaseField
     private String type;
+
+    public Accessory() {
+        super(null, null);
+    }
 
     public Accessory(String name, String imgPath, String placement, String material, String type){
         super(name, imgPath);
