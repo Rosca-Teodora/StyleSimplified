@@ -20,6 +20,12 @@ public class HelloApplication extends Application {
         stage.show();
     }
 
+    @Override
+    public void stop() {
+        System.out.println("App and database closing ");
+        DatabaseManager.closeConnection();
+    }
+
     public static void main(String[] args){
         launch();
     }
