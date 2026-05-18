@@ -22,10 +22,10 @@ public class DatabaseManager {
         try {
             JdbcPooledConnectionSource sursa = getDatabase();
 
-            TableUtils.createTable(sursa, Top.class);
-            TableUtils.createTable(sursa, Bottom.class);
-            TableUtils.createTable(sursa, Accessory.class);
-            TableUtils.createTable(sursa, Tag.class);
+            TableUtils.createTableIfNotExists(sursa, Top.class);
+            TableUtils.createTableIfNotExists(sursa, Bottom.class);
+            TableUtils.createTableIfNotExists(sursa, Accessory.class);
+            TableUtils.createTableIfNotExists(sursa, Tag.class);
 
             System.out.println("PostgreSQL with docker connected + tables made");
         } catch (Exception e) {

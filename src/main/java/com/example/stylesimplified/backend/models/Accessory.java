@@ -3,12 +3,10 @@ package com.example.stylesimplified.backend.models;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import java.util.Objects;
+
 @DatabaseTable(tableName = "clothing-accesories")
 public class Accessory extends ClothingItem{
-
-    @DatabaseField(generatedId = true)
-    private int accessoryId;
-
     @DatabaseField
     private String placement;
 
@@ -48,15 +46,7 @@ public class Accessory extends ClothingItem{
     }
 
     @Override
-    public int compareTo(Object obj){
-        if (obj.equals(this)){
-            return 0;
-        }
-        if (!(obj instanceof Accessory)){
-            return -1; // daca nu e accesoriu este mai "mare" obiectul obj
-        }
-
-        Accessory comp = (Accessory) obj;
-        return this.name.compareTo(comp.getName()); // ordine lexicografica fiindca name e String
+    public int hashCode() {
+        return Objects.hash(name, placement, material, type);
     }
 }

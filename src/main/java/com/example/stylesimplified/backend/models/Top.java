@@ -3,11 +3,10 @@ package com.example.stylesimplified.backend.models;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import java.util.Objects;
+
 @DatabaseTable(tableName = "clothing_tops")
 public class Top extends ClothingItem {
-    @DatabaseField(generatedId = true)
-    private int topId;
-
     @DatabaseField
     private String sleeveLength;
 
@@ -48,19 +47,7 @@ public class Top extends ClothingItem {
     }
 
     @Override
-    public int compareTo(Object obj){
-        if (obj.equals(this)){
-            return 0;
-        }
-        if (!(obj instanceof Top)){
-            return 1; // orice bluza e mai "mare" decat celelalte haine
-        }
-
-        Top comp = (Top) obj;
-        if (comp.dateUploaded.isAfter(this.dateUploaded)){
-            return -1; // mentine descrescator prin a considera ca toate chestiile adaugate mai tarziu sunt mai mici
-        }
-        return 1;
-
+    public int hashCode() {
+        return Objects.hash(name, isOuterwear);
     }
 }
