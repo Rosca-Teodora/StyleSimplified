@@ -14,16 +14,21 @@ public class Tag {
     @DatabaseField
     protected String descriere;
 
+    @DatabaseField
+    private Boolean isFavourite;
+
     public Tag() {}
 
     public Tag(String nume) {
         this.nume = nume;
         this.descriere = "";
+        this.isFavourite = false;
     }
 
     public Tag(String nume, String descriere) {
         this.nume = nume;
         this.descriere = descriere;
+        this.isFavourite = false;
     }
 
     public String getDescriere() {
@@ -32,5 +37,13 @@ public class Tag {
 
     public void setDescriere(String descriere) {
         this.descriere = descriere;
+    }
+
+    public Boolean getFavourite() {
+        return isFavourite;
+    }
+
+    public void setFavourite(Boolean favourite){
+        this.isFavourite = favourite;
     }
 }
