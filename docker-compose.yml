@@ -1,0 +1,16 @@
+services:
+  wardrobe-db:
+    image: postgres:15-alpine
+    container_name: style-simplified-db
+    restart: always
+    environment: # will change to .env at some point
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password123
+      POSTGRES_DB: wardrobe_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata: # container data saving

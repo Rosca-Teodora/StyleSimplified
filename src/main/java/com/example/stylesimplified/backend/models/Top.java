@@ -1,9 +1,25 @@
 package com.example.stylesimplified.backend.models;
 
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
+
+import java.util.Objects;
+
+@DatabaseTable(tableName = "clothing_tops")
 public class Top extends ClothingItem {
+    @DatabaseField
     private String sleeveLength;
+
+    @DatabaseField
     private String neckline;
+
+    @DatabaseField
     private boolean isOuterwear; // if it's a jacket type or a shirt type (can it be worn over other clothes?)
+
+    // needed default constructor for database handling
+    public Top(){
+        super(null, null);
+    }
 
     public Top(String name, String imgPath, String sleeveLength, String neckline, boolean isOuterwear){
         super(name, imgPath);
@@ -31,19 +47,7 @@ public class Top extends ClothingItem {
     }
 
     @Override
-    public int compareTo(Object obj){
-        if (obj.equals(this)){
-            return 0;
-        }
-        if (!(obj instanceof Top)){
-            return 1; // orice bluza e mai "mare" decat celelalte haine
-        }
-
-        Top comp = (Top) obj;
-        if (comp.dateUploaded.isAfter(this.dateUploaded)){
-            return -1; // mentine descrescator prin a considera ca toate chestiile adaugate mai tarziu sunt mai mici
-        }
-        return 1;
-
+    public int hashCode() {
+        return Objects.hash(name, isOuterwear);
     }
 }

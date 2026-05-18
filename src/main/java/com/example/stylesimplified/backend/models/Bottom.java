@@ -1,9 +1,24 @@
 package com.example.stylesimplified.backend.models;
 
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
+
+import java.util.Objects;
+
+@DatabaseTable(tableName = "clothing-bottoms")
 public class Bottom extends ClothingItem {
+    @DatabaseField
     private String fitType; // skinny, baggy etc
+
+    @DatabaseField
     private String waistRise; // low-rise, high-rise etc
+
+    @DatabaseField
     private String length; // shorts, long pants, mid-lenghth
+
+    public Bottom(){
+        super(null, null);
+    }
 
     public Bottom(String name, String imgPath, String fitType, String waistRise, String length){
         super(name, imgPath);
@@ -31,22 +46,7 @@ public class Bottom extends ClothingItem {
     }
 
     @Override
-    public int compareTo(Object obj){
-        if (obj.equals(this)){
-            return 0;
-        }
-        if (obj instanceof Accessory){
-            return 1; // mai mare decat accesoriile
-        }
-        if (obj instanceof Top){
-            return -1; // mai mic decat bluzele
-        }
-
-        Bottom comp = (Bottom) obj;
-        if (comp.dateUploaded.isAfter(this.dateUploaded)){
-            return -1; // mentine descrescator prin a considera ca toate chestiile adaugate mai tarziu sunt mai mici
-        }
-        return 1;
-
+    public int hashCode() {
+        return Objects.hash(name, fitType, length);
     }
 }
