@@ -84,6 +84,14 @@ public class WardrobeService {
         System.out.println("Removed clothing item");
     }
 
+    public void addTag(Tag tag){
+
+    }
+
+    public void removeTag(Tag tag){
+
+    }
+
     // load clothes from DB de preferat on startup
     // 3 tabele diferite desi vrem hainele in acelasi arraylist "wardrobe"
     public void loadClothesFromDb() {
