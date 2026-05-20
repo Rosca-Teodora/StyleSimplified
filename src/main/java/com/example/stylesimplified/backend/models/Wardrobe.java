@@ -50,6 +50,8 @@ public class Wardrobe {
         }
     });
 
+    private ArrayList<Tag> tags = new ArrayList<>();
+
     public Set<ClothingItem> getOwnedClothes() {
         return ownedClothes;
     }
@@ -60,5 +62,9 @@ public class Wardrobe {
 
     public Set<Outfit> getAllOutfits() {
         return allOutfits;
+    }
+
+    public ArrayList<Tag> getTags() {
+        return tags;
     }
 }

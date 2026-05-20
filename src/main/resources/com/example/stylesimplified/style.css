@@ -1,53 +1,63 @@
-    /* style.css */
+.root {
+    -fx-background-color: #333333;
+}
 
-    /* Stil pentru fundalul principal al VBox-ului */
-    .root {
-        -fx-background-color: #f0f0f0; /* Un gri deschis */
-    }
+.mainFxmlClass {
+    -fx-background-color: #333333;
+}
 
-    /* Stil pentru etichetele de titlu */
-    .label-title {
-        -fx-font-size: 24px;
-        -fx-font-weight: bold;
-        -fx-text-fill: #333333;
-    }
+.task {
+    -fx-border-color: #fff;
+    -fx-border-radius: 20px;
+}
 
-    /* Stil pentru butoane */
-    .button {
-        -fx-background-color: #4CAF50; /* Verde */
-        -fx-text-fill: white;
-        -fx-font-size: 14px;
-        -fx-padding: 10px 20px;
-        -fx-border-radius: 5px;
-        -fx-background-radius: 5px;
-    }
+.button {
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+    -fx-background-radius: 0;
+    -fx-background-color: transparent;
+}
 
-    /* Stil pentru butoanele la hover */
-    .button:hover {
-        -fx-background-color: #45a049;
-    }
+.pane {
+    -fx-border-color: #fff;
+    -fx-border-radius: 10px;
+    -fx-background-color: transparent;
+}
 
-    /* Stil pentru TextField-uri */
-    .text-field {
-        -fx-border-color: #cccccc;
-        -fx-border-radius: 3px;
-        -fx-padding: 5px;
-    }
+.textinput {
+    -fx-background-color: #666666;
+    -fx-text-fill: #fff;
+}
 
-    /* Stil pentru TilePane-ul care conține cardurile de haine */
-    #clothesCard { /* Folosim # pentru fx:id */
-        -fx-background-color: #ffffff;
-        -fx-padding: 15px;
-        -fx-hgap: 15px;
-        -fx-vgap: 20px;
-    }
+.label {
+    -fx-text-fill: #ffffff;
+}
 
-    /* Stil pentru cardurile individuale de haine (VBox-uri) */
-    .clothing-card {
-        -fx-background-color: #f9f9f9;
-        -fx-border-color: #e0e0e0;
-        -fx-border-width: 1px;
-        -fx-border-radius: 8px;
-        -fx-padding: 10px;
-        -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 2);
-    }
+.button {
+    -fx-background-color: #555555;
+    -fx-text-fill: #ffffff;
+    -fx-border-color: #777777;
+}
+
+.button:hover {
+    -fx-background-color: #666666;
+}
+
+.text-field {
+    -fx-background-color: #444444;
+    -fx-text-fill: #ffffff;
+    -fx-prompt-text-fill: #bbbbbb;
+}
+
+.scroll-pane {
+    -fx-background: #333333;
+    -fx-background-color: #333333;
+}
+
+.viewport {
+    -fx-background-color: transparent;
+}
+
+.separator {
+    -fx-background-color: #555555;
+}

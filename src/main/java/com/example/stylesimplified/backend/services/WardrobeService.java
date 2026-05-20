@@ -18,6 +18,7 @@ public class WardrobeService {
     private Dao<Top, Integer> topDao;
     private Dao<Bottom, Integer> bottomDao;
     private Dao<Accessory, Integer> accessoryDao;
+    private Dao<Tag, Integer> tagDao;
 
     private WardrobeService(){
         this.wardrobe = new Wardrobe();
@@ -28,7 +29,7 @@ public class WardrobeService {
             this.topDao = DaoManager.createDao(connection, Top.class);
             this.bottomDao = DaoManager.createDao(connection, Bottom.class);
             this.accessoryDao = DaoManager.createDao(connection, Accessory.class);
-
+            this.tagDao = DaoManager.createDao(connection, Tag.class);
         } catch (SQLException e) {
             System.out.println("Eroare in gestionarea bazei de date");
             e.printStackTrace();
@@ -84,23 +85,55 @@ public class WardrobeService {
         System.out.println("Removed clothing item");
     }
 
-    public void addTag(Tag tag){
+    public void addTag(Tag t){
+        try {
+            tagDao.create((Tag) t);
+        }
+        catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
+        wardrobe.getTags().add(t);
+        System.out.println("Added tag to memory");
     }
 
     public void removeTag(Tag tag){
+        try {
+            tagDao.delete((Tag) tag);
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
 
+        wardrobe.getTags().remove(tag);
+        System.out.println("Tag object removed from DB");
+    }
+
+    public void updateTag(Tag tag) {
+        try {
+            tagDao.update(tag);
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     // load clothes from DB de preferat on startup
     // 3 tabele diferite desi vrem hainele in acelasi arraylist "wardrobe"
-    public void loadClothesFromDb() {
+    public void loadItemsFromDb() {
         try {
+            // clothes
             wardrobe.getOwnedClothes().clear();
 
             wardrobe.getOwnedClothes().addAll(topDao.queryForAll());
             wardrobe.getOwnedClothes().addAll(bottomDao.queryForAll());
             wardrobe.getOwnedClothes().addAll(accessoryDao.queryForAll());
+
+            // tags
+            wardrobe.getTags().clear();
+            wardrobe.getTags().addAll(tagDao.queryForAll());
+
+            System.out.println("Loaded items from DB");
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
