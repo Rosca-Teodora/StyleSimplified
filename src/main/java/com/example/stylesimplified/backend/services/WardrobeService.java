@@ -1,5 +1,6 @@
 package com.example.stylesimplified.backend.services;
 
+import com.example.stylesimplified.backend.exceptions.CharacterLimitExceededException;
 import com.example.stylesimplified.backend.models.*;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
@@ -85,28 +86,29 @@ public class WardrobeService {
         System.out.println("Removed clothing item");
     }
 
-    public void addTag(Tag t){
+    public void addTag(Tag t) throws CharacterLimitExceededException {
+        if (t.getNume().length() > 50){
+            throw new CharacterLimitExceededException("Tag name too long, it must be shorter than 50 chars");
+        }
         try {
             tagDao.create((Tag) t);
+            wardrobe.getTags().add(t);
+            System.out.println("Added tag to memory");
         }
         catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
-        wardrobe.getTags().add(t);
-        System.out.println("Added tag to memory");
     }
 
     public void removeTag(Tag tag){
         try {
             tagDao.delete((Tag) tag);
+            wardrobe.getTags().remove(tag);
+            System.out.println("Tag object removed from DB");
         }
         catch (SQLException e) {
             e.printStackTrace();
         }
-
-        wardrobe.getTags().remove(tag);
-        System.out.println("Tag object removed from DB");
     }
 
     public void updateTag(Tag tag) {

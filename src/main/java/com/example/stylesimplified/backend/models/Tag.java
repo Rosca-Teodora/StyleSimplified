@@ -31,6 +31,8 @@ public class Tag {
         this.isFavourite = false;
     }
 
+    public String getNume() { return nume; }
+
     public String getDescriere() {
         return descriere;
     }

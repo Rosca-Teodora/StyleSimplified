@@ -6,9 +6,9 @@
     -fx-background-color: #000000;
 }
 
-.task {
+.tag {
     -fx-border-color: #fff;
-    -fx-border-radius: 20px;
+    -fx-border-radius: 10px;
 }
 
 .button {
@@ -16,6 +16,14 @@
     -fx-border-width: 0;
     -fx-background-radius: 0;
     -fx-background-color: transparent;
+}
+
+.button:hover {
+    -fx-background-color: #666666;
+}
+
+.scroll-pane {
+    -fx-background: transparent;
 }
 
 .pane {
@@ -56,25 +64,10 @@
     -fx-text-fill: #ffffff;
 }
 
-.button {
-    -fx-background-color: #555555;
-    -fx-text-fill: #ffffff;
-    -fx-border-color: #777777;
-}
-
-.button:hover {
-    -fx-background-color: #666666;
-}
-
 .text-field {
     -fx-background-color: #444444;
     -fx-text-fill: #ffffff;
     -fx-prompt-text-fill: #bbbbbb;
-}
-
-.scroll-pane {
-    -fx-background: #333333;
-    -fx-background-color: #333333;
 }
 
 .viewport {
