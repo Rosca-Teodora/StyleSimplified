@@ -100,6 +100,14 @@ public class TagsController {
         label.setGraphic(tagStyle);
         tagStyle.setFill(Color.WHITE);
 
+        // pt edit "view" -> text field nou in care se scrie si se trimite direct catre database cu service.updateTag(tag)
+        TextField editField = new TextField(tag.getNume()); // initial apare numele vechi
+        editField.setPrefWidth(300);
+        editField.getStyleClass().add("pane");
+        editField.setStyle("-fx-text-fill: white; -fx-font-size: 18px;");
+        editField.setVisible(false);
+        editField.setManaged(false);
+
         // images (delete, edit)
         ImageView deleteView = createImageView("delete_funny_icon.png");
         ImageView editView = createImageView("edit_icon.png");
@@ -113,20 +121,49 @@ public class TagsController {
             renderTags();
         });
 
-        // TODO: add edit btn logic and implement in box constructor an editBtn.setOnAction
+        // ok editing core logic here
+        final boolean[] isEditing = {false};
+        editBtn.setOnAction(e -> {
+            if (!isEditing[0]){ // currently editing
+                isEditing[0] = true;
+                label.setVisible(false);
+                label.setManaged(false);
+                editField.setVisible(true);
+                editField.setManaged(true);
+
+                editField.requestFocus(); // chichita draguta = cursor in box
+                editField.positionCaret(editField.getText().length());
+            }
+            else {
+                String newName = editField.getText().trim();
+
+                if (!newName.isEmpty() && newName.length() <= 50) {
+                    tag.setNume(newName); // update the object
+                    service.updateTag(tag); // save to Database
+                }
+
+                isEditing[0] = false;
+                renderTags(); // Redraws the screen, turning it back into a normal Label!
+            }
+        });
+
+        // hit enter and save :)
+        editField.setOnAction(e -> {
+            editBtn.fire(); // Simulates a click on the edit button to trigger the save logic above
+        });
 
         String heartIconPath = tag.getFavourite() ? "filled_heart_icon.png" : "empty_heart_icon.png";
         ImageView faveView = createImageView(heartIconPath);
         Button faveBtn = createButton(faveView);
 
-        // When clicked, flip the boolean, update the DB, and redraw to show the new heart
+        // when clicked, flip the boolean, update the DB, and redraw to show the new heart
         faveBtn.setOnAction(e -> {
             tag.setFavourite(!tag.getFavourite());
-            // service.updateTag(tag); // UNCOMMENT when DB update method exists
+            service.updateTag(tag);
             renderTags();
         });
 
-        box.getChildren().addAll(label, spacer, editBtn, deleteBtn, faveBtn);
+        box.getChildren().addAll(label, editField, spacer, editBtn, deleteBtn, faveBtn);
         return box;
     }
 
@@ -144,7 +181,7 @@ public class TagsController {
         btn.setPrefHeight(32);
         btn.setPrefWidth(8);
         btn.setGraphic(graphic);
-        btn.setStyle("-fx-background-color: transparent; -fx-cursor: hand;");
+        btn.getStyleClass().add("icon-button");
         return btn;
     }
 
