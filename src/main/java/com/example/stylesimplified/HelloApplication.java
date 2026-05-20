@@ -14,10 +14,12 @@ public class HelloApplication extends Application {
     public void start(Stage stage) throws IOException {
         DatabaseManager.setupDatabase();
 
-        WardrobeService.getInstance().loadClothesFromDb(); // load actual saved clothes
+        WardrobeService.getInstance().loadItemsFromDb(); // load actual saved clothes
 
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("home-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
+        scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+
         stage.setTitle("Style Simplified - Home");
         stage.setScene(scene);
         stage.show();

@@ -1,0 +1,79 @@
+.root {
+    -fx-background-color: #000000;
+}
+
+.mainFxmlClass {
+    -fx-background-color: #000000;
+}
+
+.tag {
+    -fx-border-color: #fff;
+    -fx-border-radius: 10px;
+}
+
+.button {
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+    -fx-background-radius: 0;
+    -fx-background-color: transparent;
+}
+
+.button:hover {
+    -fx-background-color: #666666;
+}
+
+.scroll-pane {
+    -fx-background: transparent;
+}
+
+.pane {
+    -fx-border-color: #fff;
+    -fx-border-radius: 10px;
+    -fx-background-color: transparent;
+}
+
+/* 1. The background of the popup dropdown list */
+.choice-box .context-menu {
+    -fx-background-color: #222222;
+    -fx-border-color: #555555;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+}
+
+/* 2. The standard background of the items inside the list */
+.choice-box .menu-item {
+    -fx-background-color: transparent;
+}
+
+/* 3. The text color of the items */
+.choice-box .menu-item > .label {
+    -fx-text-fill: #ffffff;
+}
+
+/* 4. The highlight color when you hover over an item */
+.choice-box .menu-item:focused {
+    -fx-background-color: #444444;
+}
+
+.textinput {
+    -fx-background-color: #666666;
+    -fx-text-fill: #fff;
+}
+
+.label {
+    -fx-text-fill: #ffffff;
+}
+
+.text-field {
+    -fx-background-color: #444444;
+    -fx-text-fill: #ffffff;
+    -fx-prompt-text-fill: #bbbbbb;
+}
+
+.viewport {
+    -fx-background-color: transparent;
+}
+
+.separator {
+    -fx-background-color: #555555;
+}

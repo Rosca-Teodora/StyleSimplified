@@ -18,6 +18,11 @@ public class HomeController {
     }
 
     @FXML
+    void handleTagsButton(ActionEvent event) throws IOException {
+        navigateTo(event, "tags-view.fxml", "My Tags");
+    }
+
+    @FXML
     void handleOutfitsButton(ActionEvent event) {
         System.out.println("Outfits button clicked - to be implemented.");
         // Aici vei adăuga navigarea către outfits-view.fxml când va fi gata

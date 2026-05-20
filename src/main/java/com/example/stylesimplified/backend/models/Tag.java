@@ -9,8 +9,43 @@ public class Tag {
     private int tagId;
 
     @DatabaseField
-    protected String denumire;
+    protected String nume;
 
     @DatabaseField
-    protected String purpose;
+    protected String descriere;
+
+    @DatabaseField
+    private Boolean isFavourite;
+
+    public Tag() {}
+
+    public Tag(String nume) {
+        this.nume = nume;
+        this.descriere = "";
+        this.isFavourite = false;
+    }
+
+    public Tag(String nume, String descriere) {
+        this.nume = nume;
+        this.descriere = descriere;
+        this.isFavourite = false;
+    }
+
+    public String getNume() { return nume; }
+
+    public String getDescriere() {
+        return descriere;
+    }
+
+    public void setDescriere(String descriere) {
+        this.descriere = descriere;
+    }
+
+    public Boolean getFavourite() {
+        return isFavourite;
+    }
+
+    public void setFavourite(Boolean favourite){
+        this.isFavourite = favourite;
+    }
 }
