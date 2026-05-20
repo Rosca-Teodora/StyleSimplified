@@ -134,6 +134,10 @@ public class AddItemController {
             // Render the preview immediately on the form!
             Image preview = new Image(selectedImageFile.toURI().toString());
             imagePreview.setImage(preview);
+
+            // unhide image so that a preview appears
+            imagePreview.setVisible(true);
+            imagePreview.setManaged(true);
         }
     }
 
@@ -212,7 +216,11 @@ public class AddItemController {
     private void clearFields() {
         nameField.clear();
         selectedImageFile = null;
+
         imagePreview.setImage(null);
+        imagePreview.setVisible(false); // bc i dont want to show the space reserved for an empty Image View
+        imagePreview.setManaged(false);
+
         sleeveInput.clear();
         necklineInput.clear();
         isOuterwearInput.setSelected(false);
