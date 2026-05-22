@@ -10,6 +10,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -25,6 +26,12 @@ public class WardrobeController {
     // TilePane from current scene (list of clothes)
     @FXML
     private TilePane clothesCard;
+
+//    private HBox createClothingUI(ClothingItem ci) {
+//        HBox box = new HBox();
+//        box.setAlignment(Pos.CENTER);
+//
+//    }
 
     // take the owned clothes from the wardrobe atribute of the service and display each item in it's own Vbox
     public void showClothes(){

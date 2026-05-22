@@ -31,6 +31,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.stylesimplified.backend.utils.UIFactory.*;
+
 public class TagsController {
     @FXML
     private TextField nameField;
@@ -84,7 +86,7 @@ public class TagsController {
         HBox box = new HBox();
         box.setPrefHeight(6);
         box.getStyleClass().add("tag");
-        box.setPrefWidth(200);
+        box.setPrefWidth(500);
         box.setSpacing(5);
         box.setPadding(new Insets(9));
 
@@ -167,23 +169,6 @@ public class TagsController {
         return box;
     }
 
-    ImageView createImageView(String icon) {
-        Image imageIcon = new Image(getClass().getResourceAsStream("/com/example/stylesimplified/icons/" + icon));
-        ImageView imageView = new ImageView(imageIcon);
-
-        imageView.setFitHeight(28);
-        imageView.setFitWidth(28);
-
-        return imageView;
-    }
-    Button createButton(Node graphic) {
-        Button btn = new Button();
-        btn.setPrefHeight(32);
-        btn.setPrefWidth(8);
-        btn.setGraphic(graphic);
-        btn.getStyleClass().add("icon-button");
-        return btn;
-    }
 
     @FXML
     void handleBackButton(ActionEvent event) throws IOException {
