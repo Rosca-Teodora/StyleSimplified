@@ -39,6 +39,7 @@ public class WardrobeController {
 
         ImageView clothingView = new ImageView();
         Label label = new Label(ci.getName()); // label-ul imaginii
+        label.setMinWidth(30);
 
         // adauga imaginea propriu-zisa in img view ul pt clothing item
         try {

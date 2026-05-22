@@ -63,6 +63,9 @@ public class WardrobeService {
             if (ci instanceof Accessory) {
                 accessoryDao.create((Accessory) ci);
             }
+
+            wardrobe.getOwnedClothes().add(ci);
+            System.out.println("Added clothing item");
         }
         catch (CharacterLimitExceededException e) {
             System.out.println(e.getMessage());
@@ -70,9 +73,6 @@ public class WardrobeService {
         catch (Exception e){
             e.printStackTrace();
         }
-
-        wardrobe.getOwnedClothes().add(ci);
-        System.out.println("Added clothing item");
     }
 
     public void removeClothingItem(ClothingItem ci){
