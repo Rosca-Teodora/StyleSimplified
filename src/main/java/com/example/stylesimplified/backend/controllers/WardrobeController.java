@@ -9,6 +9,8 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.TilePane;
@@ -19,6 +21,8 @@ import javafx.scene.control.Label;
 import java.io.File;
 import java.io.IOException;
 
+import static com.example.stylesimplified.backend.utils.UIFactory.*;
+
 public class WardrobeController {
 
     private WardrobeService service = WardrobeService.getInstance();
@@ -27,46 +31,52 @@ public class WardrobeController {
     @FXML
     private TilePane clothesCard;
 
-//    private HBox createClothingUI(ClothingItem ci) {
-//        HBox box = new HBox();
-//        box.setAlignment(Pos.CENTER);
-//
-//    }
+    private HBox createClothingUI(ClothingItem ci) {
+        HBox box = createHBox();
+        box.getStyleClass().add("clothing_item");
+        box.setSpacing(40);
+
+        ImageView clothingView = new ImageView();
+        Label label = new Label(ci.getName()); // label-ul imaginii
+
+        // adauga imaginea propriu-zisa in img view ul pt clothing item
+        try {
+            File imageFile = new File(ci.getImgPath());
+            if (imageFile.exists()){
+                clothingView.setImage(new Image(imageFile.toURI().toString()));
+            }
+            else {
+                System.err.println("Image not found for " + ci.getName() + " at path: " + ci.getImgPath());
+                // Optional: Set a placeholder image
+                // imgView.setImage(new javafx.scene.image.Image("/path/to/placeholder.png"));
+            }
+        } catch (Exception e) {
+            System.err.println("Failed to load image for " + ci.getName() + ": " + e.getMessage());
+        }
+        clothingView.setFitWidth(200);
+        clothingView.setFitHeight(200);
+        clothingView.setPreserveRatio(true);
+
+        Button editBtn = createButton(createImageView("edit_icon.png"));
+        Button deleteBtn = createButton(createImageView("delete_funny_icon.png"));
+
+        deleteBtn.setOnAction(e -> {
+            service.removeClothingItem(ci);
+            showClothes();
+        });
+
+        box.getChildren().addAll(clothingView, label, editBtn, deleteBtn);
+        return box;
+    }
 
     // take the owned clothes from the wardrobe atribute of the service and display each item in it's own Vbox
     public void showClothes(){
         // clear TilePane
         clothesCard.getChildren().clear();
         for (ClothingItem ci : service.getWardrobe().getOwnedClothes()){ // iterare prin haine
-            // creare VBox
-            VBox card = new VBox();
+            HBox card = createClothingUI(ci);
             card.setAlignment(Pos.CENTER);
 
-            // fiecare item are o poza deci tb creat un ImageView
-            ImageView imgView = new ImageView();
-            Label label = new Label(ci.getName()); // label-ul imaginii
-
-            try {
-                File imageFile = new File(ci.getImgPath());
-                if (imageFile.exists()){
-                    imgView.setImage(new javafx.scene.image.Image(imageFile.toURI().toString()));
-                }
-                else {
-                    System.err.println("Image not found for " + ci.getName() + " at path: " + ci.getImgPath());
-                    // Optional: Set a placeholder image
-                    // imgView.setImage(new javafx.scene.image.Image("/path/to/placeholder.png"));
-                }
-            } catch (Exception e) {
-                System.err.println("Failed to load image for " + ci.getName() + ": " + e.getMessage());
-            }
-
-            // formatare necesara pt imagini (altfel ImageView le afiseaza la marimea lor default si acopera TOATA pagina)
-            imgView.setFitWidth(200);
-            imgView.setFitHeight(200);
-            imgView.setPreserveRatio(true);
-
-
-            card.getChildren().addAll(imgView, label);
             clothesCard.getChildren().add(card);
         }
 

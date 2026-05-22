@@ -83,14 +83,9 @@ public class TagsController {
 
     HBox createTagUI(Tag tag){
         // the actual box in which everything is placed
-        HBox box = new HBox();
-        box.setPrefHeight(6);
+        HBox box = createHBox();
         box.getStyleClass().add("tag");
-        box.setPrefWidth(500);
-        box.setSpacing(5);
-        box.setPadding(new Insets(9));
 
-        // button on the right
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
 
