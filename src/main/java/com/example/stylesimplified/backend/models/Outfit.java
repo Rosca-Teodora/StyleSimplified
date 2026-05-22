@@ -1,20 +1,39 @@
 package com.example.stylesimplified.backend.models;
 
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
+
 import java.time.LocalDate;
 import java.util.*;
 
+@DatabaseTable(tableName = "outfits")
 public class Outfit {
-    static private Integer counter = 0;
-    private LocalDate dateUploaded;
+    @DatabaseField(generatedId = true)
+    private int outfitId;
+
+    @DatabaseField
+    private String dbDateString;
+
+    @DatabaseField
     protected String name;
+
     protected List<ClothingItem> items = new ArrayList<>();
+
     protected Set<Tag> outfitTags = new HashSet<>();
+
+    private LocalDate dateUploaded;
 
     public LocalDate getDateUploaded(){
         return this.dateUploaded;
     }
     public String getName() {
         return name;
+    }
+
+    public Outfit() {}
+
+    public Outfit(String name) {
+        this.name = name;
     }
 
     @Override

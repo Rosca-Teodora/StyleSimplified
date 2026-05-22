@@ -26,6 +26,10 @@ public class DatabaseManager {
             TableUtils.createTableIfNotExists(sursa, Bottom.class);
             TableUtils.createTableIfNotExists(sursa, Accessory.class);
             TableUtils.createTableIfNotExists(sursa, Tag.class);
+            TableUtils.createTableIfNotExists(sursa, Outfit.class);
+            TableUtils.createTableIfNotExists(sursa, ClothingTagLink.class);
+            TableUtils.createTableIfNotExists(sursa, OutfitTagLink.class);
+            TableUtils.createTableIfNotExists(sursa, OutfitClothingLink.class);
 
             System.out.println("PostgreSQL with docker connected + tables made");
         } catch (Exception e) {

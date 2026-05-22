@@ -21,6 +21,9 @@ public class WardrobeService {
     private Dao<Accessory, Integer> accessoryDao;
     private Dao<Tag, Integer> tagDao;
 
+    // relationship links
+    private Dao<ClothingTagLink, Integer> clothingTagLinkDao;
+
     private WardrobeService(){
         this.wardrobe = new Wardrobe();
 
@@ -139,6 +142,19 @@ public class WardrobeService {
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
+        }
+    }
+
+    // many-to-many relationships
+    // clothing to tags:
+    public void addClothingTagLink(ClothingTagLink link) {
+        try {
+            clothingTagLinkDao.create((ClothingTagLink) link);
+            System.out.println("Saved tag to clothing");
+        }
+        catch (Exception e) {
+            System.out.println("Nu s-a putut crea relatia dintre clothing item si tag");
+            e.printStackTrace();
         }
     }
 
