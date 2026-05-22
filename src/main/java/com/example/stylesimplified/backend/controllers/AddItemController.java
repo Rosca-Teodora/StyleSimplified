@@ -91,14 +91,16 @@ public class AddItemController {
             updateVisibleFields();
         });
 
+        tagsMenuButton.getItems().clear();
         List<Tag> availableTags = WardrobeService.getInstance().getWardrobe().getTags();
 
         // take every tag and make a checkbox + custom menu item for it
         for (Tag tag : availableTags) {
             CheckBox cb = new CheckBox(tag.getNume());
             cb.setUserData(tag);
+            cb.setStyle("-fx-text-fill: white; -fx-cursor: hand;");
 
-            CustomMenuItem menuItem = new CustomMenuItem();
+            CustomMenuItem menuItem = new CustomMenuItem(cb);
             menuItem.setHideOnClick(false); // so its possible to select multiple tags
 
             tagsMenuButton.getItems().add(menuItem);
