@@ -51,6 +51,9 @@ public class WardrobeService {
 
     public void addClothingItem(ClothingItem ci){
         try {
+            if (ci.getName().length() > 22){
+                throw new CharacterLimitExceededException("Clothing name too long, expecting a shorter one");
+            }
             if (ci instanceof Top) {
                 topDao.create((Top) ci);
             }
@@ -60,6 +63,9 @@ public class WardrobeService {
             if (ci instanceof Accessory) {
                 accessoryDao.create((Accessory) ci);
             }
+        }
+        catch (CharacterLimitExceededException e) {
+            System.out.println(e.getMessage());
         }
         catch (Exception e){
             e.printStackTrace();
@@ -100,6 +106,9 @@ public class WardrobeService {
         }
         catch (SQLException e) {
             throw new RuntimeException(e);
+        }
+        catch (CharacterLimitExceededException e) {
+            System.out.println(e.getMessage());
         }
     }
 

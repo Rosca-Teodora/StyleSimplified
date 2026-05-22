@@ -13,6 +13,7 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -29,12 +30,12 @@ public class WardrobeController {
 
     // TilePane from current scene (list of clothes)
     @FXML
-    private TilePane clothesCard;
+    private VBox clothesCard;
 
     private HBox createClothingUI(ClothingItem ci) {
         HBox box = createHBox();
         box.getStyleClass().add("clothing_item");
-        box.setSpacing(40);
+        box.setSpacing(25);
 
         ImageView clothingView = new ImageView();
         Label label = new Label(ci.getName()); // label-ul imaginii
@@ -43,12 +44,13 @@ public class WardrobeController {
         try {
             File imageFile = new File(ci.getImgPath());
             if (imageFile.exists()){
-                clothingView.setImage(new Image(imageFile.toURI().toString()));
+                Image img = new Image(imageFile.toURI().toString(), 200, 200, true, true);
+                clothingView.setImage(img);
             }
             else {
                 System.err.println("Image not found for " + ci.getName() + " at path: " + ci.getImgPath());
                 // Optional: Set a placeholder image
-                // imgView.setImage(new javafx.scene.image.Image("/path/to/placeholder.png"));
+                clothingView.setImage(new Image("/com/example/stylesimplified/icons/placeholder.jpg"));
             }
         } catch (Exception e) {
             System.err.println("Failed to load image for " + ci.getName() + ": " + e.getMessage());
@@ -75,7 +77,7 @@ public class WardrobeController {
         clothesCard.getChildren().clear();
         for (ClothingItem ci : service.getWardrobe().getOwnedClothes()){ // iterare prin haine
             HBox card = createClothingUI(ci);
-            card.setAlignment(Pos.CENTER);
+            card.setAlignment(Pos.CENTER_LEFT);
 
             clothesCard.getChildren().add(card);
         }
