@@ -72,6 +72,27 @@
     -fx-text-fill: #ffffff;
 }
 
+/* outfit list style */
+/* The standard look for a gallery thumbnail */
+.gallery-item {
+    -fx-border-color: transparent;
+    -fx-border-width: 3px;
+    -fx-border-radius: 10px;
+    -fx-cursor: hand;
+    -fx-padding: 5px;
+}
+
+/* The glowing look when it is selected! */
+.gallery-item-selected {
+    -fx-border-color: #00a8ff; /* A nice neon blue */
+    -fx-border-width: 3px;
+    -fx-border-radius: 10px;
+    -fx-background-color: #222222;
+    -fx-cursor: hand;
+    -fx-padding: 5px;
+}
+
+
 .textinput {
     -fx-background-color: #666666;
     -fx-text-fill: #fff;

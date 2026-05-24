@@ -7,6 +7,7 @@
 <?import javafx.scene.layout.*?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.text.Font?>
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.example.stylesimplified.backend.controllers.AddOutfitController"
@@ -19,6 +20,30 @@
             <Insets bottom="10.0" left="10.0" right="10.0" top="15.0" />
         </padding>
     </HBox>
+    <VBox layoutX="28.0" layoutY="69.0" prefHeight="706.0" prefWidth="547.0" spacing="15.0">
+        <children>
+            <Label text="Create New Outfit" textFill="WHITE">
+                <font><Font size="28.0" /></font>
+            </Label>
+
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Label text="Outfit Name:" textFill="WHITE"/>
+                <TextField fx:id="outfitNameField" prefWidth="300" styleClass="text-field" />
+            </HBox>
+
+            <Label text="Select Clothes (Max 30):" textFill="WHITE"/>
+            <Label fx:id="counterLabel" text="0 / 30 Selected" textFill="#00a8ff" />
+
+            <ScrollPane prefHeight="400.0" prefWidth="542.0" style="-fx-background-color: transparent;" styleClass="scroll-pane">
+                <content>
+                    <FlowPane fx:id="clothesGallery" hgap="15.0" vgap="15.0" prefWrapLength="520.0" />
+                </content>
+            </ScrollPane>
+
+            <Button text="Save Outfit" onAction="#handleSaveOutfitButton" styleClass="button" />
+            <Label fx:id="statusLabel" />
+        </children>
+    </VBox>
 
 
 </AnchorPane>

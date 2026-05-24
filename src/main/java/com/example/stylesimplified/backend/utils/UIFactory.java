@@ -1,12 +1,17 @@
 package com.example.stylesimplified.backend.utils;
 
+import com.example.stylesimplified.backend.models.ClothingItem;
 import com.j256.ormlite.stmt.query.In;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.geometry.Insets;
+import javafx.scene.layout.VBox;
+
+import java.io.File;
 
 // factory design pattern for easy UI element creation
 // noticed that i was trying to make a very similar layout for tags clothes and outfits and i didnt want to
@@ -57,5 +62,37 @@ public class UIFactory {
     // default values pt buton
     public static Button createButton(Node graphic) {
         return createButton(graphic, 32, 8, "icon-button");
+    }
+
+    public static ImageView loadClothingImage(String path, int width, int height) {
+        ImageView clothingView = new ImageView();
+        try {
+            File imageFile = new File(path);
+            if (imageFile.exists()){
+                Image img = new Image(imageFile.toURI().toString(), width, height, true, true);
+                clothingView.setImage(img);
+            } else {
+                System.err.println("Image not found at path: " + path);
+                Image placeholder = new Image(UIFactory.class.getResourceAsStream(ICON_PATH + "placeholder.jpg"), width, height, true, true);
+                clothingView.setImage(placeholder);
+            }
+        } catch (Exception e) {
+            System.err.println("Failed to load image: " + e.getMessage());
+        }
+
+        clothingView.setFitWidth(width);
+        clothingView.setFitHeight(height);
+        clothingView.setPreserveRatio(true);
+        return clothingView;
+    }
+
+    public static VBox createGalleryThumbnail(ClothingItem ci) {
+        ImageView imgView = loadClothingImage(ci.getImgPath(), 100, 100);
+
+        VBox card = new VBox(imgView);
+        card.setAlignment(Pos.CENTER);
+        card.getStyleClass().add("gallery-item"); // Apply the default CSS
+
+        return card;
     }
 }
