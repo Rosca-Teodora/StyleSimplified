@@ -5,6 +5,7 @@ import com.example.stylesimplified.backend.commands.Command;
 import com.example.stylesimplified.backend.commands.CommandInvoker;
 import com.example.stylesimplified.backend.models.*;
 import com.example.stylesimplified.backend.services.WardrobeService;
+import com.example.stylesimplified.backend.utils.SceneManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -121,17 +122,7 @@ public class AddItemController {
     @FXML
     void handleBackButton(ActionEvent event) throws IOException {
         // Make sure "wardrobe-view.fxml" is the exact name of your file!
-        navigateTo(event, "wardrobe-view.fxml", "My Wardrobe");
-    }
-
-    private void navigateTo(ActionEvent event, String fxmlFile, String title) throws IOException {
-        String absoluteFxmlPath = "/com/example/stylesimplified/" + fxmlFile; // Check this folder path!
-        Parent root = FXMLLoader.load(getClass().getResource(absoluteFxmlPath));
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.setTitle(title);
-        stage.show();
+        SceneManager.navigateTo(event, "wardrobe-view.fxml", "My Wardrobe");
     }
 
     @FXML

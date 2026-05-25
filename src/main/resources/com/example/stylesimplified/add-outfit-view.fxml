@@ -8,10 +8,15 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.text.Font?>
+<?import java.net.URL?>
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.example.stylesimplified.backend.controllers.AddOutfitController"
             prefHeight="800.0" prefWidth="600.0">
+
+    <stylesheets>
+        <URL value="@style.css" />
+    </stylesheets>
     <HBox layoutX="9.0" prefHeight="54.0" prefWidth="582.0" spacing="20.0">
         <children>
             <Button mnemonicParsing="false" onAction="#handleBackButton" text="&lt;Back" />

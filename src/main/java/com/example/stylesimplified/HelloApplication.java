@@ -5,6 +5,7 @@ import com.example.stylesimplified.backend.services.WardrobeService;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -21,6 +22,7 @@ public class HelloApplication extends Application {
         scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
 
         stage.setTitle("Style Simplified - Home");
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("icons/app_icon.png")));
         stage.setScene(scene);
         stage.show();
     }
