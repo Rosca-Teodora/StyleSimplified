@@ -1,10 +1,12 @@
 package com.example.stylesimplified.backend.utils;
 
 import com.example.stylesimplified.backend.models.ClothingItem;
+import com.example.stylesimplified.backend.models.Outfit;
 import com.j256.ormlite.stmt.query.In;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -94,5 +96,16 @@ public class UIFactory {
         card.getStyleClass().add("gallery-item"); // Apply the default CSS
 
         return card;
+    }
+
+    public static VBox createOutfitCard(Outfit outfit){
+        ImageView thumbnail = loadClothingImage(outfit.getImagePath(), 100, 100);
+        Label outfitName = new Label(outfit.getName());
+        outfitName.setStyle("-fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold;");
+
+        VBox box = new VBox(10, thumbnail, outfitName); // spacing 10 between image and fit name
+        box.setAlignment(Pos.CENTER);
+        box.getStyleClass().add("gallery-item");
+        return box;
     }
 }

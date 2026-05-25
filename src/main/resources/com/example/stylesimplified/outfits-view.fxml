@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<?import java.net.URL?>
+<?import javafx.scene.control.ScrollPane?>
 <AnchorPane prefHeight="800.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.stylesimplified.backend.controllers.OutfitsController">
     <stylesheets>
         <URL value="@style.css" />
@@ -76,11 +77,11 @@
                   <Insets bottom="10.0" />
                </VBox.margin>
             </GridPane>
-            <ScrollPane fx:id="scrollPane" prefHeight="582.0" prefWidth="542.0">
-              <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
-              </content>
-            </ScrollPane>
+             <ScrollPane prefHeight="557.0" prefWidth="547.0" style="-fx-background-color: transparent;" styleClass="scroll-pane" fitToWidth="true" vbarPolicy="AS_NEEDED" hbarPolicy="NEVER">
+                 <content>
+                     <FlowPane fx:id="outfitPane" hgap="20.0" vgap="20.0" prefWrapLength="500.0" />
+                 </content>
+             </ScrollPane>
          </children>
       </VBox>
    </children>

@@ -17,6 +17,9 @@ public class Outfit {
     @DatabaseField
     protected String name;
 
+    @DatabaseField
+    protected String imagePath;
+
     protected List<ClothingItem> items = new ArrayList<>();
 
     protected Set<Tag> outfitTags = new HashSet<>();
@@ -33,6 +36,7 @@ public class Outfit {
         return this.items;
     }
     public int getId(){ return this.outfitId; }
+    public String getImagePath() { return this.imagePath; }
 
     public Outfit() {}
 
@@ -40,15 +44,21 @@ public class Outfit {
         this.name = name;
     }
 
+    public Outfit(String name, String imagePath) {
+        this.name = name;
+        this.imagePath = imagePath;
+    }
+
     @Override
     public boolean equals(Object o) {
+        if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Outfit outfit = (Outfit) o;
-        return Objects.equals(items, outfit.items) && Objects.equals(outfitTags, outfit.outfitTags);
+        return outfitId == outfit.outfitId;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(items, outfitTags);
+        return Objects.hash(outfitId);
     }
 }

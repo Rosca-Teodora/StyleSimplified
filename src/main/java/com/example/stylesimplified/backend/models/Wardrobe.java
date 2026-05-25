@@ -1,53 +1,44 @@
 package com.example.stylesimplified.backend.models;
 
+import java.time.LocalDate;
 import java.util.*;
 
 public class Wardrobe {
 
     // vreau sa afisez hainele intr-o ordine custom (bluze, pantaloni, accesorii si pt fiecare subclasa alfabetic dupa denumire deci implementez TreeSet)
-    private Set<ClothingItem> ownedClothes = new TreeSet<>(new Comparator<ClothingItem>() {
-        @Override
-        public int compare(ClothingItem o1, ClothingItem o2) {
-            return o1.compareTo(o2); // clasa abstracta ClothingItem implementeaza Comparable
-        };
+    private Set<ClothingItem> ownedClothes = new TreeSet<>();
+
+    private Set<Outfit> allOutfits = new TreeSet<>((o1, o2) -> {
+        if (o1.getId() == o2.getId()) return 0;
+
+        LocalDate d1 = o1.getDateUploaded();
+        LocalDate d2 = o2.getDateUploaded();
+        if (d1 != null && d2 != null && !d1.equals(d2)) { // newer dates go first
+            return d1.compareTo(d2);
+        }
+        int nameCompare = o1.getName().compareToIgnoreCase(o2.getName()); // check name after dates
+        if (nameCompare != 0) {
+            return nameCompare;
+        }
+        return Integer.compare(o1.getId(), o2.getId()); // have to compare ids bc otherwise treeset deletes them (...nu mai zic nimic...)
     });
 
-    private Set<Outfit> allOutfits = new TreeSet<>(new Comparator<Outfit>() {
-        @Override
-        public int compare(Outfit o1, Outfit o2) {
-            if (o1.equals(o2)){
-                return 0;
-            }
+    private Set<Group> groups = new TreeSet<>((g1, g2) -> {
+        if (g1.getGroupId() == g2.getGroupId()) return 0;
 
-            // momentan cred sortate crescatoare in fct de data
-            if (o1.getDateUploaded().compareTo(o2.getDateUploaded()) == 0){
-                // sunt adaugate in aceeasi zi
-                return o1.getName().compareTo(o2.getName()); // sortare alfabetica
-            }
-            else {
-                // nu sunt adaugate in aceeasi zi deci metoda compareTo predefinita pt LocalDate merge
-                return o1.getDateUploaded().compareTo(o2.getDateUploaded());
-            }
+        LocalDate d1 = g1.getDateCreated();
+        LocalDate d2 = g2.getDateCreated();
+
+        if (d1 != null && d2 != null && !d1.equals(d2)) {
+            return d1.compareTo(d2);
         }
-    });
 
-    private Set<Group> groups = new TreeSet<>(new Comparator<Group>() {
-        @Override
-        public int compare(Group g1, Group g2) { // fix acelasi cod ca la grup for now
-            if (g1.equals(g2)){
-                return 0;
-            }
-
-            // momentan cred sortate crescatoare in fct de data
-            if (g1.getDateCreated().compareTo(g2.getDateCreated()) == 0){
-                // sunt adaugate in aceeasi zi
-                return g1.getName().compareTo(g2.getName()); // sortare alfabetica
-            }
-            else {
-                // nu sunt adaugate in aceeasi zi deci metoda compareTo predefinita pt LocalDate merge
-                return g1.getDateCreated().compareTo(g2.getDateCreated());
-            }
+        int nameCompare = g1.getName().compareToIgnoreCase(g2.getName());
+        if (nameCompare != 0) {
+            return nameCompare;
         }
+
+        return Integer.compare(g1.getGroupId(), g2.getGroupId());
     });
 
     private ArrayList<Tag> tags = new ArrayList<>();
