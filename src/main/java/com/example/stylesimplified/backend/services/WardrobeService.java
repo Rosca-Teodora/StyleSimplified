@@ -8,6 +8,8 @@ import com.j256.ormlite.jdbc.JdbcPooledConnectionSource;
 import com.j256.ormlite.stmt.DeleteBuilder;
 
 import java.sql.SQLException;
+import java.util.List;
+import java.util.Set;
 
 // singleton "menu" class
 // service that manipulates all the CRUD operations
@@ -24,6 +26,8 @@ public class WardrobeService {
 
     // relationship links
     private Dao<ClothingTagLink, Integer> clothingTagLinkDao;
+    private Dao<Outfit, Integer> outfitDao;
+    private Dao<OutfitClothingLink, Integer> outfitItemLinkDao;
 
     private WardrobeService(){
         this.wardrobe = new Wardrobe();
@@ -38,6 +42,8 @@ public class WardrobeService {
 
             // many to many relationship associative tables
             this.clothingTagLinkDao = DaoManager.createDao(connection, ClothingTagLink.class);
+            this.outfitDao = DaoManager.createDao(connection, Outfit.class);
+            this.outfitItemLinkDao = DaoManager.createDao(connection, OutfitClothingLink.class);
 
         } catch (SQLException e) {
             System.out.println("Eroare in gestionarea bazei de date");
@@ -158,6 +164,46 @@ public class WardrobeService {
         }
     }
 
+    public void createOutfit(Outfit outfit, List<ClothingItem> selectedClothes) {
+        try {
+            outfitDao.create(outfit);
+
+            for (ClothingItem ci : selectedClothes) {
+                String type = "";
+                if (ci instanceof Top) { type = "top"; }
+                if (ci instanceof Bottom) { type = "bottom"; }
+                if (ci instanceof Accessory) { type = "accessory"; }
+
+                OutfitClothingLink outfitClothingLink = new OutfitClothingLink(outfit, ci.getItemId(), type);
+                outfitItemLinkDao.create(outfitClothingLink);
+            }
+
+            wardrobe.getAllOutfits().add(outfit);
+            System.out.println("Outfit saved with a nr of" + selectedClothes.size() + "clothes");
+        }
+        catch (SQLException ex) {
+            System.out.println("Couldn't create outfit");
+            ex.printStackTrace();
+        }
+    }
+
+    public void removeOutfit(Outfit outfit) {
+        try {
+            for (ClothingItem ci : outfit.getClothes()) { // since outfits have multiple clothes in a list each clothing link to that outfit has to be deleted
+                DeleteBuilder<OutfitClothingLink, Integer> deleteBuilder = outfitItemLinkDao.deleteBuilder();
+                deleteBuilder.where()
+                        .eq("outfit_id", outfit.getId())
+                        .and()
+                        .eq("item_id", ci.getItemId());
+                deleteBuilder.delete();
+            }
+        }
+        catch (SQLException e){
+            System.out.println("Couldn't remove outfit");
+            e.printStackTrace();
+        }
+    }
+
     // load clothes from DB de preferat on startup
     // 3 tabele diferite desi vrem hainele in acelasi arraylist "wardrobe"
     public void loadItemsFromDb() {
@@ -180,7 +226,7 @@ public class WardrobeService {
         }
     }
 
-    // many-to-many relationships
+    // many-to-many relationships separately
     // clothing to tags:
     public void addClothingTagLink(ClothingTagLink link) {
         try {

@@ -29,6 +29,10 @@ public class Outfit {
     public String getName() {
         return name;
     }
+    public List<ClothingItem> getClothes() {
+        return this.items;
+    }
+    public int getId(){ return this.outfitId; }
 
     public Outfit() {}
 
