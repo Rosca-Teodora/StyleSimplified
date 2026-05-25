@@ -43,6 +43,10 @@ public class Tag {
         this.descriere = descriere;
     }
 
+    public int getTagId() {
+        return tagId;
+    }
+
     public Boolean getFavourite() {
         return isFavourite;
     }

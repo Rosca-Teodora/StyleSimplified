@@ -5,6 +5,7 @@ import com.example.stylesimplified.backend.models.*;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.jdbc.JdbcPooledConnectionSource;
+import com.j256.ormlite.stmt.DeleteBuilder;
 
 import java.sql.SQLException;
 
@@ -34,6 +35,10 @@ public class WardrobeService {
             this.bottomDao = DaoManager.createDao(connection, Bottom.class);
             this.accessoryDao = DaoManager.createDao(connection, Accessory.class);
             this.tagDao = DaoManager.createDao(connection, Tag.class);
+
+            // many to many relationship associative tables
+            this.clothingTagLinkDao = DaoManager.createDao(connection, ClothingTagLink.class);
+
         } catch (SQLException e) {
             System.out.println("Eroare in gestionarea bazei de date");
             e.printStackTrace();
@@ -77,6 +82,21 @@ public class WardrobeService {
 
     public void removeClothingItem(ClothingItem ci){
         try {
+            // exista relatia many to many intre clothing + tag -> tb sterse si tabelele asociative legate de o haina
+            // TODO: in viitor aceeasi problema o sa apara si pt outfit-uri (un outfit are mai multe haine, daca se sterge un outfit tb sters si link-ul dintre ele si vice versa cand se sterge o haina tb eliminata din outfit automat)
+            String type = "";
+            if (ci instanceof Top) { type = "top";}
+            if (ci instanceof Bottom) { type = "bottom";}
+            if (ci instanceof Accessory) {type = "accessory"; }
+
+            DeleteBuilder<ClothingTagLink, Integer> deleteBuilder = clothingTagLinkDao.deleteBuilder();
+            // DELETE FROM clothing_items WHERE item_id = x AND clothing_type = Y
+            deleteBuilder.where()
+                    .eq("item_id", ci.getItemId())
+                    .and()
+                    .eq("clothing_type", type);
+            deleteBuilder.delete();
+
             if (ci instanceof Top) {
                 topDao.delete((Top) ci);
             }
@@ -86,13 +106,14 @@ public class WardrobeService {
             if (ci instanceof Accessory) {
                 accessoryDao.delete((Accessory) ci);
             }
+
+            wardrobe.getOwnedClothes().remove(ci);
+            System.out.println("Removed clothing item");
         }
         catch (Exception e){
+            System.out.println("Nu se poate sterge clothing item-ul");
             e.printStackTrace();
         }
-
-        wardrobe.getOwnedClothes().remove(ci);
-        System.out.println("Removed clothing item");
     }
 
     public void addTag(Tag t) throws CharacterLimitExceededException {
@@ -114,6 +135,11 @@ public class WardrobeService {
 
     public void removeTag(Tag tag){
         try {
+            DeleteBuilder<ClothingTagLink, Integer> deleteBuilder = clothingTagLinkDao.deleteBuilder();
+            deleteBuilder.where()
+                            .eq("tag_id", tag.getTagId());
+            deleteBuilder.delete();
+
             tagDao.delete((Tag) tag);
             wardrobe.getTags().remove(tag);
             System.out.println("Tag object removed from DB");
