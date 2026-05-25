@@ -5,6 +5,7 @@ import com.example.stylesimplified.backend.commands.CommandInvoker;
 import com.example.stylesimplified.backend.models.Tag;
 import com.example.stylesimplified.backend.models.Wardrobe;
 import com.example.stylesimplified.backend.services.WardrobeService;
+import com.example.stylesimplified.backend.utils.SceneManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -30,6 +31,8 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.example.stylesimplified.backend.utils.UIFactory.*;
 
 public class TagsController {
     @FXML
@@ -81,14 +84,9 @@ public class TagsController {
 
     HBox createTagUI(Tag tag){
         // the actual box in which everything is placed
-        HBox box = new HBox();
-        box.setPrefHeight(6);
+        HBox box = createHBox();
         box.getStyleClass().add("tag");
-        box.setPrefWidth(200);
-        box.setSpacing(5);
-        box.setPadding(new Insets(9));
 
-        // button on the right
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
 
@@ -167,36 +165,9 @@ public class TagsController {
         return box;
     }
 
-    ImageView createImageView(String icon) {
-        Image imageIcon = new Image(getClass().getResourceAsStream("/com/example/stylesimplified/icons/" + icon));
-        ImageView imageView = new ImageView(imageIcon);
-
-        imageView.setFitHeight(28);
-        imageView.setFitWidth(28);
-
-        return imageView;
-    }
-    Button createButton(Node graphic) {
-        Button btn = new Button();
-        btn.setPrefHeight(32);
-        btn.setPrefWidth(8);
-        btn.setGraphic(graphic);
-        btn.getStyleClass().add("icon-button");
-        return btn;
-    }
 
     @FXML
     void handleBackButton(ActionEvent event) throws IOException {
-        navigateTo(event, "home-view.fxml", "Style Simplified - Home");
-    }
-
-    private void navigateTo(ActionEvent event, String fxmlFile, String title) throws IOException {
-        String absoluteFxmlPath = "/com/example/stylesimplified/" + fxmlFile;
-        Parent root = FXMLLoader.load(getClass().getResource(absoluteFxmlPath));
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.setTitle(title);
-        stage.show();
+        SceneManager.navigateTo(event, "home-view.fxml", "Style Simplified - Home");
     }
 }

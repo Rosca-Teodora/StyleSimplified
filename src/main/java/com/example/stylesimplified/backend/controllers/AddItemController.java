@@ -3,11 +3,9 @@ package com.example.stylesimplified.backend.controllers;
 import com.example.stylesimplified.backend.commands.AddClothingCommand;
 import com.example.stylesimplified.backend.commands.Command;
 import com.example.stylesimplified.backend.commands.CommandInvoker;
-import com.example.stylesimplified.backend.models.Accessory;
-import com.example.stylesimplified.backend.models.Bottom;
-import com.example.stylesimplified.backend.models.ClothingItem;
-import com.example.stylesimplified.backend.models.Top;
+import com.example.stylesimplified.backend.models.*;
 import com.example.stylesimplified.backend.services.WardrobeService;
+import com.example.stylesimplified.backend.utils.SceneManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -30,6 +28,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class AddItemController {
@@ -74,6 +74,11 @@ public class AddItemController {
     @FXML
     private TextField accessoryTypeInput;
 
+    // choosing tags
+    @FXML
+    private MenuButton tagsMenuButton;
+    // need a list so that i can load the tags and make the many to many relationships later
+    private final List<CheckBox> tagCheckBoxes = new ArrayList<>();
 
     private final CommandInvoker cmdInvoker = new CommandInvoker();
 
@@ -86,6 +91,22 @@ public class AddItemController {
         typeChoiceBox.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
             updateVisibleFields();
         });
+
+        tagsMenuButton.getItems().clear();
+        List<Tag> availableTags = WardrobeService.getInstance().getWardrobe().getTags();
+
+        // take every tag and make a checkbox + custom menu item for it
+        for (Tag tag : availableTags) {
+            CheckBox cb = new CheckBox(tag.getNume());
+            cb.setUserData(tag);
+            cb.setStyle("-fx-text-fill: white; -fx-cursor: hand;");
+
+            CustomMenuItem menuItem = new CustomMenuItem(cb);
+            menuItem.setHideOnClick(false); // so its possible to select multiple tags
+
+            tagsMenuButton.getItems().add(menuItem);
+            tagCheckBoxes.add(cb);
+        }
     }
 
     private void updateVisibleFields() {
@@ -101,17 +122,7 @@ public class AddItemController {
     @FXML
     void handleBackButton(ActionEvent event) throws IOException {
         // Make sure "wardrobe-view.fxml" is the exact name of your file!
-        navigateTo(event, "wardrobe-view.fxml", "My Wardrobe");
-    }
-
-    private void navigateTo(ActionEvent event, String fxmlFile, String title) throws IOException {
-        String absoluteFxmlPath = "/com/example/stylesimplified/" + fxmlFile; // Check this folder path!
-        Parent root = FXMLLoader.load(getClass().getResource(absoluteFxmlPath));
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.setTitle(title);
-        stage.show();
+        SceneManager.navigateTo(event, "wardrobe-view.fxml", "My Wardrobe");
     }
 
     @FXML
@@ -149,21 +160,19 @@ public class AddItemController {
 
         if (selectedImageFile != null) {
             try {
-                // 1. Define where you want to copy the image to
+                // where is the image copied to
                 String fileName = System.currentTimeMillis() + "_" + selectedImageFile.getName(); // Make name unique
                 Path destinationDir = Paths.get("wardrobe_images");
-
-                // Create the folder if it doesn't exist
+                // create the folder if it doesn't exist
                 if (!Files.exists(destinationDir)) {
                     Files.createDirectories(destinationDir);
                 }
 
                 Path destinationPath = destinationDir.resolve(fileName);
 
-                // 2. Actually copy the file on the hard drive
+                // actually copy the file on the hard drive
                 Files.copy(selectedImageFile.toPath(), destinationPath, StandardCopyOption.REPLACE_EXISTING);
-
-                // 3. Save the relative text path
+                // save the relative text path
                 finalImagePath = destinationPath.toString();
 
             } catch (Exception e) {
@@ -203,6 +212,16 @@ public class AddItemController {
             if (newClothingItem != null) {
                 Command addCommand = new AddClothingCommand(WardrobeService.getInstance(), newClothingItem);
                 cmdInvoker.executeCommand(addCommand);
+
+                for (CheckBox cb : tagCheckBoxes) {
+                    if (cb.isSelected()) {
+                        Tag selectedTag = (Tag) cb.getUserData(); // de asta e pusa initial in initialize() ca sa poata fi luat direct tag ul dupa
+                        ClothingTagLink manyToMany = new ClothingTagLink(selectedTag, newClothingItem.getItemId(), type);
+                        WardrobeService.getInstance().addClothingTagLink(manyToMany);
+                        newClothingItem.getTags().add(selectedTag);
+                    }
+                }
+
                 statusLabel.setText("Item added successfully!");
                 statusLabel.setTextFill(Color.GREEN);
                 clearFields();

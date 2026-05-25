@@ -7,8 +7,7 @@ import java.util.SimpleTimeZone;
 import java.util.TreeSet;
 
 public class Group{
-    static private Integer counter = 0;
-    protected String groupId;
+    protected int groupId;
     protected String groupName;
     protected LocalDate dateCreated;
     protected Set<Outfit> outfits= new TreeSet<>(new Comparator<Outfit>() {
@@ -32,13 +31,10 @@ public class Group{
     public LocalDate getDateCreated(){
         return dateCreated;
     }
-    public String getGroupId() {
-        return groupId;
-    }
+    public int getGroupId() { return this.groupId; }
     public String getName() {
         return groupName;
     }
-
     // override la equals pentru ca doua grupuri ar trebui sa poata avea aceleasi outfit-uri dar nu acelasi nume si group id
     @Override
     public boolean equals(Object obj){

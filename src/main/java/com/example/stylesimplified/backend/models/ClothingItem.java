@@ -63,6 +63,14 @@ public abstract class ClothingItem implements Comparable<ClothingItem> {
         return 4;
     }
 
+    public int getItemId() {
+        return itemId;
+    }
+
+    public Set<Tag> getTags() {
+        return tags;
+    }
+
     @Override
     public int compareTo(ClothingItem o) {
         int thisRank = getRank(this);
