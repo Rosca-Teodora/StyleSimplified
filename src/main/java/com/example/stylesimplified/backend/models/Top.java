@@ -50,4 +50,24 @@ public class Top extends ClothingItem {
     public int hashCode() {
         return Objects.hash(name, isOuterwear);
     }
+
+    public String getSleeveLength() {
+        return this.sleeveLength;
+    }
+
+    public String getNeckline() {
+        return this.neckline;
+    }
+
+    public boolean isOuterwear() {
+        return this.isOuterwear;
+    }
+
+    public void setSleeveLength(String text) {
+        this.sleeveLength = text;
+    }
+
+    public void setNeckline(String text) {
+        this.neckline = text;
+    }
 }

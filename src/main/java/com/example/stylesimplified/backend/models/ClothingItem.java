@@ -93,4 +93,8 @@ public abstract class ClothingItem implements Comparable<ClothingItem> {
         // last chance compare to catch all the issues
         return Integer.compare(this.itemId, o.itemId);
     }
+
+    public void setName(String text) {
+        this.name = text;
+    }
 }

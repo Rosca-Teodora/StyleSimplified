@@ -2,11 +2,13 @@ package com.example.stylesimplified.backend.controllers;
 
 import com.example.stylesimplified.backend.models.ClothingItem;
 import com.example.stylesimplified.backend.services.WardrobeService;
+import com.example.stylesimplified.backend.utils.ClothingNavigationContext;
 import com.example.stylesimplified.backend.utils.SceneManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -29,7 +31,7 @@ public class WardrobeController {
 
     private WardrobeService service = WardrobeService.getInstance();
 
-    // TilePane from current scene (list of clothes)
+    // tilePane from current scene (list of clothes)
     @FXML
     private VBox clothesCard;
 
@@ -51,7 +53,7 @@ public class WardrobeController {
             }
             else {
                 System.err.println("Image not found for " + ci.getName() + " at path: " + ci.getImgPath());
-                // Optional: Set a placeholder image
+                // placeholder
                 clothingView.setImage(new Image("/com/example/stylesimplified/icons/placeholder.jpg"));
             }
         } catch (Exception e) {
@@ -61,8 +63,19 @@ public class WardrobeController {
         clothingView.setFitHeight(200);
         clothingView.setPreserveRatio(true);
 
+        // cand apesi pe un clothing item te duci in view mode (context are startInEditMode setat ca false)
+        clothingView.setOnMouseClicked(event -> {
+            ClothingNavigationContext context = new ClothingNavigationContext(ci, false);
+            SceneManager.navigateToWithData((Node) event.getSource(), "clothing-item-details-view.fxml", "Item Details", context);
+        });
+
         Button editBtn = createButton(createImageView("edit_icon.png"));
         Button deleteBtn = createButton(createImageView("delete_funny_icon.png"));
+
+        editBtn.setOnAction(event -> {
+            ClothingNavigationContext context = new ClothingNavigationContext(ci, true);
+            SceneManager.navigateToWithData((Node) event.getSource(), "clothing-item-details-view.fxml", "Edit Item", context);
+        });
 
         deleteBtn.setOnAction(e -> {
             service.removeClothingItem(ci);

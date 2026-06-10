@@ -44,6 +44,28 @@
     -fx-border-radius: 10px;
     -fx-background-color: transparent;
 }
+
+.transparent-scroll-pane {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-background: transparent; /* Essential for JavaFX viewports */
+    -fx-border-color: transparent;
+}
+
+.transparent-scroll-pane .viewport {
+    -fx-background-color: transparent;
+}
+
+/* Beautiful custom style for the individual tag badges */
+.tag-badge {
+    -fx-background-color: #333333;
+    -fx-text-fill: white;
+    -fx-background-radius: 15;
+    -fx-border-radius: 15;
+    -fx-border-color: #555555;
+    -fx-border-width: 1;
+}
+
 /* 1. The background of ALL popup dropdown lists */
 .context-menu {
     -fx-background-color: #222222;
@@ -92,6 +114,46 @@
     -fx-padding: 5px;
 }
 
+/* 1. Style the main MenuButton container */
+#addTagButton {
+    -fx-background-color: #2a2a2a;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-border-color: #555555;
+    -fx-border-width: 0.8;
+    -fx-padding: 5 10 5 10;
+    -fx-cursor: hand;
+}
+
+/* 2. Smooth hover transition */
+#addTagButton:hover {
+    -fx-background-color: #383838;
+    -fx-border-color: #777777;
+}
+
+/* 3. Force the inner label text to be crisp white */
+#addTagButton .label {
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 14px;
+}
+
+/* 4. Color the little drop-down arrow white so it's visible */
+#addTagButton .arrow {
+    -fx-background-color: #ffffff;
+}
+
+#addTagButton .arrow-button {
+    -fx-padding: 0 0 0 8; /* Add clean spacing between text and the arrow */
+}
+
+/* 5. Style the dropdown popup context menu list wrapper itself */
+#addTagButton .context-menu {
+    -fx-background-color: #222222;
+    -fx-border-color: #444444;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 5;
+}
 
 .textinput {
     -fx-background-color: #666666;

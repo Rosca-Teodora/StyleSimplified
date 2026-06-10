@@ -27,6 +27,8 @@ public class Bottom extends ClothingItem {
         this.length = length;
     }
 
+
+
     @Override
     public boolean equals(Object obj){
         if (this == obj){
@@ -48,5 +50,29 @@ public class Bottom extends ClothingItem {
     @Override
     public int hashCode() {
         return Objects.hash(name, fitType, length);
+    }
+
+    public String getFitType() {
+        return this.fitType;
+    }
+
+    public String getWaistRise() {
+        return this.waistRise;
+    }
+
+    public String getLength() {
+        return this.length;
+    }
+
+    public void setFitType(String text) {
+        this.fitType = text;
+    }
+
+    public void setWaistRise(String text) {
+        this.waistRise = text;
+    }
+
+    public void setLength(String length) {
+        this.length = length;
     }
 }

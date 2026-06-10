@@ -49,4 +49,28 @@ public class Accessory extends ClothingItem{
     public int hashCode() {
         return Objects.hash(name, placement, material, type);
     }
+
+    public String getPlacement() {
+        return this.placement;
+    }
+
+    public String getMaterial() {
+        return this.material;
+    }
+
+    public String getType() {
+        return this.type;
+    }
+
+    public void setPlacement(String placement) {
+        this.placement = placement;
+    }
+
+    public void setMaterial(String material) {
+        this.material = material;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 }
