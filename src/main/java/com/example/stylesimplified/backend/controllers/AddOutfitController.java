@@ -1,7 +1,9 @@
 package com.example.stylesimplified.backend.controllers;
 
 import com.example.stylesimplified.backend.commands.AddOutfitCommand;
+import com.example.stylesimplified.backend.commands.Command;
 import com.example.stylesimplified.backend.commands.CommandInvoker;
+import com.example.stylesimplified.backend.commands.UpdateOutfitCommand;
 import com.example.stylesimplified.backend.models.ClothingItem;
 import com.example.stylesimplified.backend.models.Outfit;
 import com.example.stylesimplified.backend.services.WardrobeService;
@@ -168,11 +170,9 @@ public class AddOutfitController implements DataInitializable<OutfitNavigationCo
                 outfitToEdit.setCustomThumbnailPath(selectedClothes.get(0).getImgPath());
             }
 
-            // Update database links
-            service.updateOutfitClothes(outfitToEdit, selectedClothes);
+            Command updateOutfit = new UpdateOutfitCommand(service, outfitToEdit, selectedClothes);
+            cmdInvoker.executeCommand(updateOutfit);
 
-            // NEW: Actually update the Outfit row in the database so the name/thumbnail saves!
-            service.updateOutfit(outfitToEdit);
 
             OutfitNavigationContext context = new OutfitNavigationContext(outfitToEdit, false);
             SceneManager.navigateToWithData((Node) event.getSource(), "outfit-details-view.fxml", outfitToEdit.getName(), context);

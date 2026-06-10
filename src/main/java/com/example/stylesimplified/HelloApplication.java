@@ -14,7 +14,6 @@ public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         DatabaseManager.setupDatabase();
-
         WardrobeService.getInstance().loadItemsFromDb(); // load actual saved clothes
 
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("home-view.fxml"));

@@ -12,6 +12,9 @@ httpRequests/
 # folder where Maven builds project
 /target/
 
+audit_log.csv
+outfit_thumbnails/*
+
 # compiled class files and archives
 *.class
 *.jar

@@ -1,5 +1,8 @@
 package com.example.stylesimplified.backend.controllers;
 
+import com.example.stylesimplified.backend.commands.Command;
+import com.example.stylesimplified.backend.commands.CommandInvoker;
+import com.example.stylesimplified.backend.commands.UpdateClothingCommand;
 import com.example.stylesimplified.backend.models.*;
 import com.example.stylesimplified.backend.services.WardrobeService;
 import com.example.stylesimplified.backend.utils.ClothingNavigationContext;
@@ -22,6 +25,7 @@ public class ClothingItemsController implements DataInitializable<ClothingNaviga
     private ClothingItem currentItem;
     private boolean isCurrentlyEditing = false;
     private WardrobeService service = WardrobeService.getInstance();
+    private CommandInvoker invoker = new CommandInvoker();
 
     @FXML private ScrollPane tagsPane;
     @FXML private FlowPane tagsFlowPane;
@@ -153,6 +157,9 @@ public class ClothingItemsController implements DataInitializable<ClothingNaviga
                     currentItem.getTags().remove(tag);
                     service.removeClothingTagLink(currentItem, tag);
                 }
+
+                Command updateItem = new UpdateClothingCommand(service, currentItem);
+                invoker.executeCommand(updateItem);
                 renderTagsComponent(); // super important update ca sa dea refresh la tag uri fara sa inchizi meniul
             });
 
@@ -226,12 +233,10 @@ public class ClothingItemsController implements DataInitializable<ClothingNaviga
 
             if (matchedTag != null) {
                 currentItem.getTags().add(matchedTag);
-                String typeStr = "accessory";
-                if (currentItem instanceof Top) typeStr = "top";
-                else if (currentItem instanceof Bottom) typeStr = "bottom";
 
-                ClothingTagLink newLink = new ClothingTagLink(matchedTag, currentItem.getItemId(), typeStr); // salvarea tag-ului (relatiei) in DB
-                service.addClothingTagLink(newLink);
+                Command updateItem = new UpdateClothingCommand(service, currentItem);
+                invoker.executeCommand(updateItem);
+
                 renderTagsComponent(); // refresh ul
             }
         });
@@ -259,7 +264,9 @@ public class ClothingItemsController implements DataInitializable<ClothingNaviga
             a.setPlacement(propField1.getText());
         }
 
-        service.updateClothingItem(currentItem);
+
+        Command updateItem = new UpdateClothingCommand(service, currentItem);
+        invoker.executeCommand(updateItem);
 
         setEditMode(false);
     }
