@@ -269,6 +269,10 @@ public class WardrobeService {
                         .eq("item_id", ci.getItemId());
                 deleteBuilder.delete();
             }
+
+            outfitDao.delete(outfit);
+            wardrobe.getAllOutfits().remove(outfit);
+            System.out.println("Outfit scos din DB");
         }
         catch (SQLException e){
             System.out.println("Nu s-a putut sterge outfit-ul");

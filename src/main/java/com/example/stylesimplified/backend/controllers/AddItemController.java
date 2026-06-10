@@ -99,7 +99,7 @@ public class AddItemController {
         for (Tag tag : availableTags) {
             CheckBox cb = new CheckBox(tag.getNume());
             cb.setUserData(tag);
-            cb.setStyle("-fx-text-fill: white; -fx-cursor: hand;");
+            cb.setStyle("-fx-cursor: hand;");
 
             CustomMenuItem menuItem = new CustomMenuItem(cb);
             menuItem.setHideOnClick(false); // so its possible to select multiple tags

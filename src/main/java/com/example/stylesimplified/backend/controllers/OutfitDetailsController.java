@@ -1,6 +1,10 @@
 package com.example.stylesimplified.backend.controllers;
 
+import com.example.stylesimplified.backend.commands.Command;
+import com.example.stylesimplified.backend.commands.CommandInvoker;
+import com.example.stylesimplified.backend.commands.RemoveOutfitCommand;
 import com.example.stylesimplified.backend.models.*;
+import com.example.stylesimplified.backend.services.WardrobeService;
 import com.example.stylesimplified.backend.utils.DataInitializable;
 import com.example.stylesimplified.backend.utils.OutfitNavigationContext;
 import com.example.stylesimplified.backend.utils.SceneManager;
@@ -19,6 +23,7 @@ import java.util.Map;
 public class OutfitDetailsController implements DataInitializable<OutfitNavigationContext> {
 
     private Outfit currentOutfit;
+    private final CommandInvoker cmdInvoker = new CommandInvoker();
 
     @FXML private Label outfitNameLabel;
     @FXML private GridPane pinterestBoard;
@@ -96,6 +101,15 @@ public class OutfitDetailsController implements DataInitializable<OutfitNavigati
         // Transition completely to the dedicated Add/Edit Outfit View
         OutfitNavigationContext context = new OutfitNavigationContext(currentOutfit, true);
         SceneManager.navigateToWithData((Node) event.getSource(), "add-outfit-view.fxml", "Edit Outfit", context);
+    }
+
+    @FXML
+    void handleRemoveOutfit(ActionEvent event) throws IOException {
+        Command removeOutfit = new RemoveOutfitCommand(WardrobeService.getInstance(), currentOutfit);
+        cmdInvoker.executeCommand(removeOutfit);
+
+        SceneManager.navigateTo(event, "outfits-view.fxml", "My Outfits");
+
     }
 
     @FXML

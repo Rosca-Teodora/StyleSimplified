@@ -123,20 +123,8 @@ public class ClothingItemsController implements DataInitializable<ClothingNaviga
             badge.setPadding(new javafx.geometry.Insets(5, 10, 5, 10));
 
             Label tagLabel = new Label(tag.getName());
-            tagLabel.setStyle("-fx-text-fill: white;");
             badge.getChildren().add(tagLabel);
 
-            // cand se editeaza itemul se adauga un x micut la buton... momentan nu merge 100% perfect cu menuButton ul de tag choices dar o sa il rezolv mai tarziu
-            if (isCurrentlyEditing) {
-                Button removeBtn = new Button("×");
-                removeBtn.setStyle("-fx-background-color: transparent; -fx-text-fill: #ff6666; -fx-padding: 0; -fx-cursor: hand;");
-                removeBtn.setOnAction(e -> {
-                    currentItem.getTags().remove(tag);
-                    WardrobeService.getInstance().removeClothingTagLink(currentItem, tag); // Clear DB junction data
-                    renderTagsComponent(); // Instant view recalculation
-                });
-                badge.getChildren().add(removeBtn);
-            }
             tagsFlowPane.getChildren().add(badge);
         }
     }
@@ -147,7 +135,7 @@ public class ClothingItemsController implements DataInitializable<ClothingNaviga
 
         for (Tag tag : allGlobalTags) {
             CheckBox cb = new CheckBox(tag.getNume());
-            cb.setStyle("-fx-text-fill: white; -fx-cursor: hand;");
+            cb.setStyle("-fx-cursor: hand;");
             cb.setSelected(currentItem.getTags().contains(tag)); // seteaza selectatele deja in fct de array ul cached
 
             cb.setOnAction(e -> { // setOnAction ca sa nu fac un popup menu

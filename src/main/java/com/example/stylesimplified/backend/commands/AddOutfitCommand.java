@@ -22,11 +22,6 @@ public class AddOutfitCommand implements Command {
     }
 
     @Override
-    public void undo() {
-        service.removeOutfit(outfit);
-    }
-
-    @Override
     public String getCommandText() {
         return "Added Outfit " + outfit.getName();
     }

@@ -101,7 +101,7 @@ public class UIFactory {
     public static VBox createOutfitCard(Outfit outfit){
         ImageView thumbnail = loadClothingImage(outfit.getImagePath(), 100, 100);
         Label outfitName = new Label(outfit.getName());
-        outfitName.setStyle("-fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold;");
+        outfitName.setStyle("-fx-text-fill: #2C2C2C; -fx-font-size: 16px; -fx-font-weight: bold;");
 
         VBox box = new VBox(10, thumbnail, outfitName); // spacing 10 between image and fit name
         box.setAlignment(Pos.CENTER);
