@@ -30,7 +30,7 @@
         <children>
          <HBox prefHeight="74.0" prefWidth="554.0">
             <children>
-                  <Label text="Create New Outfit" textFill="WHITE">
+                  <Label fx:id="headerLabel" text="Create New Outfit" textFill="WHITE" styleClass="header-label">
                       <font>
                      <Font size="28.0" />
                   </font>
@@ -60,7 +60,7 @@
                      <Insets top="3.0" />
                   </HBox.margin>
                </Label>
-               <Button mnemonicParsing="false" onAction="#handleCustomThumbnail" prefHeight="5.0" prefWidth="139.0" text="Select Image..." />
+               <Button fx:id="customThumbButton" mnemonicParsing="false" onAction="#handleCustomThumbnail" prefHeight="5.0" prefWidth="139.0" text="Select Image..." />
             </children>
          </HBox>
          <FlowPane fx:id="clothesGallery" prefHeight="346.0" prefWidth="547.0" />

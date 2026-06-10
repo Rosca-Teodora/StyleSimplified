@@ -99,7 +99,7 @@ public class AddItemController {
         for (Tag tag : availableTags) {
             CheckBox cb = new CheckBox(tag.getNume());
             cb.setUserData(tag);
-            cb.setStyle("-fx-text-fill: white; -fx-cursor: hand;");
+            cb.setStyle("-fx-cursor: hand;");
 
             CustomMenuItem menuItem = new CustomMenuItem(cb);
             menuItem.setHideOnClick(false); // so its possible to select multiple tags
@@ -130,24 +130,17 @@ public class AddItemController {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Select Clothing Photo");
 
-        // Only allow image files
         fileChooser.getExtensionFilters().add(
                 new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg")
         );
-
-        // Get the current window (Stage) from the event source
-        Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-
-        // Open the window and get the file
-        selectedImageFile = fileChooser.showOpenDialog(null);
+        Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow(); // asta e window ul curent
+        selectedImageFile = fileChooser.showOpenDialog(null); // deschide window ul curent si ia file ul
 
         if (selectedImageFile != null) {
-            // Render the preview immediately on the form!
-            Image preview = new Image(selectedImageFile.toURI().toString());
+            Image preview = new Image(selectedImageFile.toURI().toString()); // preview ul imaginii
             imagePreview.setImage(preview);
 
-            // unhide image so that a preview appears
-            imagePreview.setVisible(true);
+            imagePreview.setVisible(true); // tb sa fie vizibil image view ul
             imagePreview.setManaged(true);
         }
     }
@@ -156,12 +149,12 @@ public class AddItemController {
     void handleAddItemButton(ActionEvent event) {
         String name = nameField.getText();
         String type = typeChoiceBox.getValue();
-        String finalImagePath = "wardrobe_images/default.png"; // Fallback if no photo selected
+        String finalImagePath = "wardrobe_images/default.png"; // fallback if no photo selected
 
         if (selectedImageFile != null) {
             try {
                 // where is the image copied to
-                String fileName = System.currentTimeMillis() + "_" + selectedImageFile.getName(); // Make name unique
+                String fileName = System.currentTimeMillis() + "_" + selectedImageFile.getName(); // sa faca numele unique
                 Path destinationDir = Paths.get("wardrobe_images");
                 // create the folder if it doesn't exist
                 if (!Files.exists(destinationDir)) {
@@ -172,11 +165,10 @@ public class AddItemController {
 
                 // actually copy the file on the hard drive
                 Files.copy(selectedImageFile.toPath(), destinationPath, StandardCopyOption.REPLACE_EXISTING);
-                // save the relative text path
-                finalImagePath = destinationPath.toString();
+                finalImagePath = destinationPath.toString(); // save
 
             } catch (Exception e) {
-                e.printStackTrace();
+                System.out.println(e.getMessage());
             }
         }
 
@@ -216,7 +208,7 @@ public class AddItemController {
                 for (CheckBox cb : tagCheckBoxes) {
                     if (cb.isSelected()) {
                         Tag selectedTag = (Tag) cb.getUserData(); // de asta e pusa initial in initialize() ca sa poata fi luat direct tag ul dupa
-                        ClothingTagLink manyToMany = new ClothingTagLink(selectedTag, newClothingItem.getItemId(), type);
+                        ClothingTagLink manyToMany = new ClothingTagLink(selectedTag, newClothingItem.getItemId(), type.toLowerCase());
                         WardrobeService.getInstance().addClothingTagLink(manyToMany);
                         newClothingItem.getTags().add(selectedTag);
                     }

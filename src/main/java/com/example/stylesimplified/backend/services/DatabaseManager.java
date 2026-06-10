@@ -3,6 +3,7 @@ import com.j256.ormlite.jdbc.JdbcPooledConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 import com.example.stylesimplified.backend.models.*;
 
+// singleton pt operarea bazei de date
 public class DatabaseManager {
     // baza de date intr-un container docker pe portul 5432 cu environment-ul setat asa pt development
     public static final String DATABASE_URL = "jdbc:postgresql://localhost:5432/wardrobe_db?user=admin&password=password123";

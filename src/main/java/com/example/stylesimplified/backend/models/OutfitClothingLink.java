@@ -43,7 +43,7 @@ public class OutfitClothingLink {
         return outfit;
     }
 
-    public String getClothingtype() {
+    public String getClothingType() {
         return clothingtype;
     }
 }

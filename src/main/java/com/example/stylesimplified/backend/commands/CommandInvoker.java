@@ -12,15 +12,15 @@ public class CommandInvoker {
         history.push(command);
     }
 
-    public void undoLastCommand(){
-        if (!history.empty()){
-            Command lastCommand = history.pop();
-            lastCommand.undo();
-        }
-        else {
-            System.out.println("There's nothing to undo yet :P");
-        }
-    }
+//    public void undoLastCommand(){
+//        if (!history.empty()){
+//            Command lastCommand = history.pop();
+//            lastCommand.undo();
+//        }
+//        else {
+//            System.out.println("There's nothing to undo yet :P");
+//        }
+//    }
 
     // daca o sa afisez comenzile pt ultimul pas din etapa 2 -> am nevoie de un nume pt comanda sau de ceva descriptiv?
 //    public void showHistory(){

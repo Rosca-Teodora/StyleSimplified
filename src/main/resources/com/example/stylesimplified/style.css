@@ -1,117 +1,169 @@
+/* Main Application Backgrounds - Softened to prevent eye strain */
 .root {
-    -fx-background-color: #111111;
+    -fx-background-color: #EAEAEB;
 }
 
 .mainFxmlClass {
-    -fx-background-color: #000000;
+    -fx-background-color: #EAEAEB;
 }
 
-.tag {
-    -fx-border-color: #fff;
-    -fx-border-radius: 10px;
+/* Global Labels and Text */
+.label {
+    -fx-text-fill: #2C2C2C;
 }
 
+.textinput, .text-field {
+    -fx-background-color: #F5F5F7;
+    -fx-border-color: #CCCCCC;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-text-fill: #2C2C2C;
+    -fx-prompt-text-fill: #888888;
+}
+
+.separator {
+    -fx-background-color: #D1D1D1;
+}
+
+/* Standard Buttons */
 .button {
-    -fx-background-color: #333333;
-    -fx-text-fill: #ffffff;
-    -fx-background-radius: 10px;
-    -fx-border-width: 0;
+    -fx-background-color: #DFE1E5; /* Soft button background */
+    -fx-text-fill: #2C2C2C;
+    -fx-background-radius: 8px;
+    -fx-border-color: #CCCCCC;
+    -fx-border-radius: 8px;
+    -fx-border-width: 1;
     -fx-font-weight: bold;
 }
 
 .button:hover {
-    -fx-background-color: #555555;
+    -fx-background-color: #D0D3D9;
     -fx-cursor: hand;
 }
 
-.scroll-pane {
-    -fx-background: transparent;
-}
-
+/* Icon Buttons (Transparent) */
 .icon-button {
     -fx-background-color: transparent;
     -fx-cursor: hand;
-    -fx-opacity: 1.0; /* Fully visible */
+    -fx-opacity: 1.0;
 }
 
 .icon-button:hover {
     -fx-background-color: transparent;
-    -fx-opacity: 0.7;
+    -fx-opacity: 0.6;
 }
 
-.pane {
-    -fx-border-color: #fff;
+/* Containers and Panes */
+.pane, .tag {
+    -fx-border-color: #D1D1D1;
     -fx-border-radius: 10px;
+    -fx-background-color: #F8F9FA; /* Slightly lighter than root to make cards pop */
+}
+
+/* Scroll Panes */
+.scroll-pane {
+    -fx-background: transparent;
+}
+
+.transparent-scroll-pane {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-background: transparent;
+    -fx-border-color: transparent;
+}
+
+.transparent-scroll-pane .viewport, .viewport {
     -fx-background-color: transparent;
 }
-/* 1. The background of ALL popup dropdown lists */
+
+/* Tag Badges */
+.tag-badge {
+    -fx-background-color: #F8F9FA;
+    -fx-text-fill: #2C2C2C;
+    -fx-background-radius: 15;
+    -fx-border-radius: 15;
+    -fx-border-color: #BDBDBD;
+    -fx-border-width: 1;
+}
+
+/* --- Dropdown / Context Menus --- */
 .context-menu {
-    -fx-background-color: #222222;
-    -fx-border-color: #555555;
+    -fx-background-color: #F8F9FA;
+    -fx-border-color: #CCCCCC;
     -fx-border-radius: 5px;
     -fx-background-radius: 5px;
 }
 
-/* 2. The standard background of the items inside the list */
 .menu-item {
     -fx-background-color: transparent;
 }
 
-/* 3. The text color of standard menu items */
 .menu-item > .label {
-    -fx-text-fill: #ffffff;
+    -fx-text-fill: #2C2C2C;
 }
 
-/* 4. The highlight color when you hover over an item */
 .menu-item:focused {
-    -fx-background-color: #444444;
+    -fx-background-color: #E2E2E2;
 }
 
-/* 5. CheckBox specific styling inside the menu */
 .check-box {
-    -fx-text-fill: #ffffff;
+    -fx-text-fill: #2C2C2C;
 }
 
-/* outfit list style */
-/* The standard look for a gallery thumbnail */
+/* --- Outfit / Gallery Styling --- */
 .gallery-item {
-    -fx-border-color: transparent;
-    -fx-border-width: 3px;
+    -fx-background-color: #FFFFFF; /* Pure white makes the image background invisible */
+    -fx-border-color: #DDDDDD;     /* Soft border to define the card */
+    -fx-border-width: 1px;
     -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
     -fx-cursor: hand;
-    -fx-padding: 5px;
+    -fx-padding: 10px;
 }
 
-/* The glowing look when it is selected! */
 .gallery-item-selected {
-    -fx-border-color: #00a8ff; /* A nice neon blue */
-    -fx-border-width: 3px;
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #888888;     /* Darker border to show selection */
+    -fx-border-width: 2px;
     -fx-border-radius: 10px;
-    -fx-background-color: #222222;
+    -fx-background-radius: 10px;
     -fx-cursor: hand;
-    -fx-padding: 5px;
+    -fx-padding: 9px;
 }
 
-
-.textinput {
-    -fx-background-color: #666666;
-    -fx-text-fill: #fff;
+/* --- Custom Specific Buttons (#addTagButton) --- */
+#addTagButton {
+    -fx-background-color: #F8F9FA;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-border-color: #BDBDBD;
+    -fx-border-width: 1;
+    -fx-padding: 5 10 5 10;
+    -fx-cursor: hand;
 }
 
-.label {
-    -fx-text-fill: #ffffff;
+#addTagButton:hover {
+    -fx-background-color: #E8EAED;
+    -fx-border-color: #999999;
 }
 
-.text-field {
-    -fx-background-color: #444444;
-    -fx-text-fill: #ffffff;
-    -fx-prompt-text-fill: #bbbbbb;
+#addTagButton .label {
+    -fx-text-fill: #2C2C2C;
+    -fx-font-size: 14px;
 }
 
-.viewport {
-    -fx-background-color: transparent;
+#addTagButton .arrow {
+    -fx-background-color: #2C2C2C;
 }
 
-.separator {
-    -fx-background-color: #555555;
+#addTagButton .arrow-button {
+    -fx-padding: 0 0 0 8;
+}
+
+#addTagButton .context-menu {
+    -fx-background-color: #F8F9FA;
+    -fx-border-color: #CCCCCC;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 5;
 }

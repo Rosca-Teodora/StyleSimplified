@@ -61,4 +61,12 @@ public class Outfit {
     public int hashCode() {
         return Objects.hash(outfitId);
     }
+
+    public void setName(String text) {
+        this.name = text;
+    }
+
+    public void setCustomThumbnailPath(String string) {
+        this.imagePath = string;
+    }
 }

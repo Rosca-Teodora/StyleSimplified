@@ -12,6 +12,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+// home page ul are doar butoane de navigare
 public class HomeController {
 
     @FXML

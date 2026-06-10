@@ -7,6 +7,7 @@ import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.jdbc.JdbcPooledConnectionSource;
 import com.j256.ormlite.stmt.DeleteBuilder;
 import com.j256.ormlite.stmt.QueryBuilder;
+import com.j256.ormlite.stmt.query.In;
 
 import java.sql.SQLException;
 import java.util.HashSet;
@@ -25,10 +26,10 @@ public class WardrobeService {
     private Dao<Bottom, Integer> bottomDao;
     private Dao<Accessory, Integer> accessoryDao;
     private Dao<Tag, Integer> tagDao;
+    private Dao<Outfit, Integer> outfitDao;
 
     // relationship links
     private Dao<ClothingTagLink, Integer> clothingTagLinkDao;
-    private Dao<Outfit, Integer> outfitDao;
     private Dao<OutfitClothingLink, Integer> outfitItemLinkDao;
 
     private WardrobeService(){
@@ -64,17 +65,26 @@ public class WardrobeService {
 
     public void addClothingItem(ClothingItem ci){
         try {
+            String type = "";
             if (ci.getName().length() > 22){
                 throw new CharacterLimitExceededException("Clothing name too long, expecting a shorter one");
             }
             if (ci instanceof Top) {
                 topDao.create((Top) ci);
+                type = "top";
             }
             if (ci instanceof Bottom) {
                 bottomDao.create((Bottom) ci);
+                type = "bottom";
             }
             if (ci instanceof Accessory) {
                 accessoryDao.create((Accessory) ci);
+                type = "accessory";
+            }
+
+            for (Tag tag : ci.getTags()){
+                ClothingTagLink link = new ClothingTagLink(tag, ci.getItemId(), type);
+                clothingTagLinkDao.create(link);
             }
 
             wardrobe.getOwnedClothes().add(ci);
@@ -84,7 +94,26 @@ public class WardrobeService {
             System.out.println(e.getMessage());
         }
         catch (Exception e){
-            e.printStackTrace();
+            System.out.println("Nu se poate salva item-ul");
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void updateClothingItem(ClothingItem ci){
+        try {
+            if (ci instanceof Top){
+                topDao.update((Top) ci);
+            }
+            if (ci instanceof  Bottom){
+                bottomDao.update((Bottom) ci);
+            }
+            if (ci instanceof Accessory){
+                accessoryDao.update((Accessory) ci);
+            }
+        }
+        catch (Exception e){
+            System.out.println("Nu poate fi updatat item-ul");
+            System.out.println(e.getMessage());
         }
     }
 
@@ -168,7 +197,7 @@ public class WardrobeService {
         try {
             tagDao.create((Tag) t);
             wardrobe.getTags().add(t);
-            System.out.println("Added tag to memory");
+            System.out.println("Tag salvat in DB");
         }
         catch (SQLException e) {
             throw new RuntimeException(e);
@@ -187,7 +216,7 @@ public class WardrobeService {
 
             tagDao.delete((Tag) tag);
             wardrobe.getTags().remove(tag);
-            System.out.println("Tag object removed from DB");
+            System.out.println("Tag object scos din DB");
         }
         catch (SQLException e) {
             e.printStackTrace();
@@ -215,13 +244,17 @@ public class WardrobeService {
 
                 OutfitClothingLink outfitClothingLink = new OutfitClothingLink(outfit, ci.getItemId(), type);
                 outfitItemLinkDao.create(outfitClothingLink);
+
+                if (!outfit.getClothes().contains(ci)) {
+                    outfit.getClothes().add(ci);
+                }
             }
 
             wardrobe.getAllOutfits().add(outfit);
             System.out.println("Outfit saved with a nr of" + selectedClothes.size() + "clothes");
         }
         catch (SQLException ex) {
-            System.out.println("Couldn't create outfit");
+            System.out.println("Nu s-a putut crea outfitu-ul");
             ex.printStackTrace();
         }
     }
@@ -236,9 +269,13 @@ public class WardrobeService {
                         .eq("item_id", ci.getItemId());
                 deleteBuilder.delete();
             }
+
+            outfitDao.delete(outfit);
+            wardrobe.getAllOutfits().remove(outfit);
+            System.out.println("Outfit scos din DB");
         }
         catch (SQLException e){
-            System.out.println("Couldn't remove outfit");
+            System.out.println("Nu s-a putut sterge outfit-ul");
             e.printStackTrace();
         }
     }
@@ -247,18 +284,67 @@ public class WardrobeService {
     // 3 tabele diferite desi vrem hainele in acelasi arraylist "wardrobe"
     public void loadItemsFromDb() {
         try {
-            // clothes
             wardrobe.getOwnedClothes().clear();
+            wardrobe.getTags().clear();
 
             wardrobe.getOwnedClothes().addAll(topDao.queryForAll());
             wardrobe.getOwnedClothes().addAll(bottomDao.queryForAll());
             wardrobe.getOwnedClothes().addAll(accessoryDao.queryForAll());
-
-            // tags
-            wardrobe.getTags().clear();
             wardrobe.getTags().addAll(tagDao.queryForAll());
+            wardrobe.getAllOutfits().addAll(outfitDao.queryForAll());
 
-            System.out.println("Loaded items from DB");
+            // pune tag-urile pt fiecare clothing item
+            for (ClothingItem ci : wardrobe.getOwnedClothes()) {
+                String type = "";
+                if (ci instanceof Top) { type = "top"; }
+                else if (ci instanceof Bottom) { type = "bottom"; }
+                else if (ci instanceof Accessory) { type = "accessory"; }
+
+                List<ClothingTagLink> links = clothingTagLinkDao.queryBuilder()
+                        .where()
+                        .eq("item_id", ci.getItemId())
+                        .and()
+                        .eq("clothing_type", type)
+                        .query();
+
+                for (ClothingTagLink link : links) {
+                    Tag linkedTag = link.getTag();
+                    if (linkedTag != null) {
+                        if (!ci.getTags().contains(linkedTag)) {
+                            ci.getTags().add(linkedTag);
+                        }
+                    }
+                }
+            }
+
+            // aceeasi chestie doar ca tb puse hainele pt fiecare outfit
+            for (Outfit fit : wardrobe.getAllOutfits()) {
+                List<OutfitClothingLink> links = outfitItemLinkDao.queryBuilder()
+                        .where()
+                        .eq("outfit_id", fit.getId())
+                        .query();
+
+                for (OutfitClothingLink link : links) {
+                    int linkedId = link.getItemId();
+                    String linkedType = link.getClothingType();
+
+                    for (ClothingItem ci : wardrobe.getOwnedClothes()) {
+                        String ciType = "";
+                        if (ci instanceof Top) ciType = "top";
+                        else if (ci instanceof Bottom) ciType = "bottom";
+                        else if (ci instanceof Accessory) ciType = "accessory";
+
+                        // tb sa match uiasca si id-ul si tipul clothing itemului
+                        if (linkedId == ci.getItemId() && ciType.equals(linkedType)) {
+                            if (!fit.getClothes().contains(ci)) { // nu mai vreau duplicate...
+                                fit.getClothes().add(ci);
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
+
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
@@ -270,7 +356,7 @@ public class WardrobeService {
     public void addClothingTagLink(ClothingTagLink link) {
         try {
             clothingTagLinkDao.create((ClothingTagLink) link);
-            System.out.println("Saved tag to clothing");
+            System.out.println("S-a salvat relatia dintre clothing item si tag");
         }
         catch (Exception e) {
             System.out.println("Nu s-a putut crea relatia dintre clothing item si tag");
@@ -280,5 +366,60 @@ public class WardrobeService {
 
     public Wardrobe getWardrobe() {
         return wardrobe;
+    }
+
+    public void removeClothingTagLink(ClothingItem currentItem, Tag tag) {
+        try {
+            DeleteBuilder<ClothingTagLink, Integer> deleteBuilder = clothingTagLinkDao.deleteBuilder();
+            deleteBuilder.where()
+                    .eq("item_id", currentItem.getItemId())
+                    .and()
+                    .eq("tag_id", tag.getTagId());
+            deleteBuilder.delete();
+            System.out.println("S-a sters tag-ul de pe item");
+        }
+        catch (Exception e){
+            System.out.println("Nu s-a putut sterge tag-ul de pe item");
+            System.out.println(e.getMessage());
+        }
+    }
+
+
+    public void updateOutfitClothes(Outfit outfit, List<ClothingItem> newClothesSelection) {
+        try {
+            // 1. Wipe the old database links entirely
+            DeleteBuilder<OutfitClothingLink, Integer> deleteBuilder = outfitItemLinkDao.deleteBuilder();
+            deleteBuilder.where().eq("outfit_id", outfit.getId());
+            deleteBuilder.delete();
+
+            // 2. Clear the memory list
+            outfit.getClothes().clear();
+
+            // 3. Create the new links and add them back to memory
+            for (ClothingItem ci : newClothesSelection) {
+                String type = "";
+                if (ci instanceof Top) type = "top";
+                else if (ci instanceof Bottom) type = "bottom";
+                else if (ci instanceof Accessory) type = "accessory";
+
+                OutfitClothingLink link = new OutfitClothingLink(outfit, ci.getItemId(), type);
+                outfitItemLinkDao.create(link);
+
+                outfit.getClothes().add(ci);
+            }
+            System.out.println("Successfully updated outfit clothes.");
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void updateOutfit(Outfit outfit) {
+        try {
+            outfitDao.update(outfit);
+            System.out.println("Successfully updated outfit details in DB.");
+        } catch (SQLException e) {
+            System.err.println("Failed to update outfit in DB.");
+            System.out.println(e.getMessage());
+        }
     }
 }

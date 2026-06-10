@@ -96,13 +96,12 @@ public class TagsController {
         label.setPrefWidth(300);
         label.setPrefHeight(25);
         label.setGraphic(tagStyle);
-        tagStyle.setFill(Color.WHITE);
 
         // pt edit "view" -> text field nou in care se scrie si se trimite direct catre database cu service.updateTag(tag)
         TextField editField = new TextField(tag.getNume()); // initial apare numele vechi
         editField.setPrefWidth(300);
         editField.getStyleClass().add("pane");
-        editField.setStyle("-fx-text-fill: white; -fx-font-size: 18px;");
+        editField.setStyle("-fx-font-size: 18px;");
         editField.setVisible(false);
         editField.setManaged(false);
 
