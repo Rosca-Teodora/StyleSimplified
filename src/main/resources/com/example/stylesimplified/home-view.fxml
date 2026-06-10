@@ -20,7 +20,7 @@
       <Button mnemonicParsing="false" onAction="#handleWardrobeButton" prefHeight="40.0" prefWidth="200.0" text="My Wardrobe" />
       <Button mnemonicParsing="false" onAction="#handleOutfitsButton" prefHeight="40.0" prefWidth="200.0" text="My Outfits" />
       <Button mnemonicParsing="false" onAction="#handleTagsButton" prefHeight="40.0" prefWidth="200.0" text="My Tags" />
-      <Button layoutX="160.0" layoutY="278.0" mnemonicParsing="false" onAction="#handleRecommendationsButton" prefHeight="40.0" prefWidth="200.0" text="Recommendations" />
+<!--      <Button layoutX="160.0" layoutY="278.0" mnemonicParsing="false" onAction="#handleRecommendationsButton" prefHeight="40.0" prefWidth="200.0" text="Recommendations" />-->
    </children>
    <padding>
       <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />

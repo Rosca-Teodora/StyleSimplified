@@ -1,5 +1,8 @@
 package com.example.stylesimplified.backend.controllers;
 
+import com.example.stylesimplified.backend.commands.Command;
+import com.example.stylesimplified.backend.commands.CommandInvoker;
+import com.example.stylesimplified.backend.commands.RemoveClothingCommand;
 import com.example.stylesimplified.backend.models.ClothingItem;
 import com.example.stylesimplified.backend.services.WardrobeService;
 import com.example.stylesimplified.backend.utils.ClothingNavigationContext;
@@ -30,6 +33,7 @@ import static com.example.stylesimplified.backend.utils.UIFactory.*;
 public class WardrobeController {
 
     private WardrobeService service = WardrobeService.getInstance();
+    private CommandInvoker invoker = new CommandInvoker();
 
     // tilePane from current scene (list of clothes)
     @FXML
@@ -79,7 +83,8 @@ public class WardrobeController {
         });
 
         deleteBtn.setOnAction(e -> {
-            service.removeClothingItem(ci);
+            Command removeItem = new RemoveClothingCommand(service, ci);
+            invoker.executeCommand(removeItem);
             showClothes();
         });
 

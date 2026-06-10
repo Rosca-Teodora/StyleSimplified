@@ -1,7 +1,6 @@
 package com.example.stylesimplified.backend.controllers;
 
-import com.example.stylesimplified.backend.commands.AddTagCommand;
-import com.example.stylesimplified.backend.commands.CommandInvoker;
+import com.example.stylesimplified.backend.commands.*;
 import com.example.stylesimplified.backend.models.Tag;
 import com.example.stylesimplified.backend.models.Wardrobe;
 import com.example.stylesimplified.backend.services.WardrobeService;
@@ -44,7 +43,7 @@ public class TagsController {
     private int ALL_TAGS_COUNTER = 0; // sincer doar de funsies adaugat pt ca urmaream un tutorial de task manager pt logica controller-ului asta si avea un counter
 
     private final WardrobeService service = WardrobeService.getInstance();
-    private final CommandInvoker commandInvoker = new CommandInvoker();
+    private final CommandInvoker invoker = new CommandInvoker();
 
     @FXML
     public void initialize() {
@@ -63,7 +62,7 @@ public class TagsController {
 
         Tag newTag = new Tag(name);
         AddTagCommand addTagCommand = new AddTagCommand(service, newTag);
-        commandInvoker.executeCommand(addTagCommand);
+        invoker.executeCommand(addTagCommand);
 
         nameField.clear();
         renderTags(); // redraw after adding a tag
@@ -114,7 +113,8 @@ public class TagsController {
         Button editBtn = createButton(editView);
 
         deleteBtn.setOnAction(e -> {
-            service.removeTag(tag);
+            Command removeTag = new RemoveTagCommand(service, tag);
+            invoker.executeCommand(removeTag);
             renderTags();
         });
 
@@ -136,7 +136,8 @@ public class TagsController {
 
                 if (!newName.isEmpty() && newName.length() <= 50) {
                     tag.setNume(newName); // update the object
-                    service.updateTag(tag); // save to Database
+                    Command updateTag = new UpdateTagCommand(service, tag); // save to Database
+                    invoker.executeCommand(updateTag);
                 }
 
                 isEditing[0] = false;

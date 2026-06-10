@@ -19,6 +19,6 @@ public class RemoveOutfitCommand implements Command{
 
     @Override
     public String getCommandText() {
-        return "Removed outfit " + outfit.getName();
+        return "removed_outfit_" + outfit.getName();
     }
 }

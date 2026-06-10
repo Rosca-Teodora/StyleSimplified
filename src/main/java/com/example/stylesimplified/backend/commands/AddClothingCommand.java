@@ -20,6 +20,6 @@ public class AddClothingCommand implements Command{
 
     @Override
     public String getCommandText() {
-        return "Added clothing item " + item.getName();
+        return "added_clothing_item_" + item.getName();
     }
 }

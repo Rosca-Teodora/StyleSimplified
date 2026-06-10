@@ -202,17 +202,15 @@ public class AddItemController {
             }
 
             if (newClothingItem != null) {
-                Command addCommand = new AddClothingCommand(WardrobeService.getInstance(), newClothingItem);
-                cmdInvoker.executeCommand(addCommand);
 
                 for (CheckBox cb : tagCheckBoxes) {
                     if (cb.isSelected()) {
                         Tag selectedTag = (Tag) cb.getUserData(); // de asta e pusa initial in initialize() ca sa poata fi luat direct tag ul dupa
-                        ClothingTagLink manyToMany = new ClothingTagLink(selectedTag, newClothingItem.getItemId(), type.toLowerCase());
-                        WardrobeService.getInstance().addClothingTagLink(manyToMany);
                         newClothingItem.getTags().add(selectedTag);
                     }
                 }
+                Command addCommand = new AddClothingCommand(WardrobeService.getInstance(), newClothingItem);
+                cmdInvoker.executeCommand(addCommand);
 
                 statusLabel.setText("Item added successfully!");
                 statusLabel.setTextFill(Color.GREEN);

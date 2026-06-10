@@ -1,15 +1,19 @@
 package com.example.stylesimplified.backend.commands;
 
+import com.example.stylesimplified.backend.services.AuditService;
 import java.util.Stack;
+
+
 // "middleman"
 // tine minte comenzile executate pt a le putea reversa
 // history = stiva
 public class CommandInvoker {
-    private Stack<Command> history = new Stack<>();
+    //private Stack<Command> history = new Stack<>();
 
     public void executeCommand(Command command){
         command.execute();
-        history.push(command);
+        AuditService.getInstance().logAction(command.getCommandText());
+        //history.push(command);
     }
 
 //    public void undoLastCommand(){
@@ -22,12 +26,4 @@ public class CommandInvoker {
 //        }
 //    }
 
-    // daca o sa afisez comenzile pt ultimul pas din etapa 2 -> am nevoie de un nume pt comanda sau de ceva descriptiv?
-//    public void showHistory(){
-//        Stack<Command> cpyHistory = history;
-//
-//        while (!cpyHistory.empty()){
-//            System.out.println(cpyHistory.pop().name);
-//        }
-//    }
 }
