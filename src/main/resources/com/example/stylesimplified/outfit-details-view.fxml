@@ -1,14 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="CONTROLLER_NAME"
-            prefHeight="400.0" prefWidth="600.0">
+<VBox prefHeight="800.0" prefWidth="600.0" spacing="20.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.example.stylesimplified.backend.controllers.OutfitDetailsController"
+      styleClass="main-root">
 
-</AnchorPane>
+    <stylesheets>
+        <URL value="@style.css" />
+    </stylesheets>
+
+    <padding>
+        <Insets top="30.0" right="40.0" bottom="30.0" left="40.0"/>
+    </padding>
+
+    <HBox alignment="CENTER_LEFT" spacing="15.0">
+        <Label fx:id="outfitNameLabel" styleClass="header-label">
+            <font><Font size="31.0" /></font>
+        </Label>
+
+        <Region HBox.hgrow="ALWAYS" />
+
+        <Button text="Edit Outfit" onAction="#handleEditMode"/>
+        <Button text="Back" onAction="#handleBack"/>
+    </HBox>
+
+    <ScrollPane fitToWidth="true" styleClass="transparent-scroll-pane" VBox.vgrow="ALWAYS">
+        <GridPane fx:id="pinterestBoard" alignment="CENTER" hgap="20" vgap="20">
+        </GridPane>
+    </ScrollPane>
+
+</VBox>

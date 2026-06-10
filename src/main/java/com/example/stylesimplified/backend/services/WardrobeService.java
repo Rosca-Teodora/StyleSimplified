@@ -244,6 +244,10 @@ public class WardrobeService {
 
                 OutfitClothingLink outfitClothingLink = new OutfitClothingLink(outfit, ci.getItemId(), type);
                 outfitItemLinkDao.create(outfitClothingLink);
+
+                if (!outfit.getClothes().contains(ci)) {
+                    outfit.getClothes().add(ci);
+                }
             }
 
             wardrobe.getAllOutfits().add(outfit);
@@ -283,8 +287,9 @@ public class WardrobeService {
             wardrobe.getOwnedClothes().addAll(bottomDao.queryForAll());
             wardrobe.getOwnedClothes().addAll(accessoryDao.queryForAll());
             wardrobe.getTags().addAll(tagDao.queryForAll());
+            wardrobe.getAllOutfits().addAll(outfitDao.queryForAll());
 
-
+            // pune tag-urile pt fiecare clothing item
             for (ClothingItem ci : wardrobe.getOwnedClothes()) {
                 String type = "";
                 if (ci instanceof Top) { type = "top"; }
@@ -307,6 +312,35 @@ public class WardrobeService {
                     }
                 }
             }
+
+            // aceeasi chestie doar ca tb puse hainele pt fiecare outfit
+            for (Outfit fit : wardrobe.getAllOutfits()) {
+                List<OutfitClothingLink> links = outfitItemLinkDao.queryBuilder()
+                        .where()
+                        .eq("outfit_id", fit.getId())
+                        .query();
+
+                for (OutfitClothingLink link : links) {
+                    int linkedId = link.getItemId();
+                    String linkedType = link.getClothingType();
+
+                    for (ClothingItem ci : wardrobe.getOwnedClothes()) {
+                        String ciType = "";
+                        if (ci instanceof Top) ciType = "top";
+                        else if (ci instanceof Bottom) ciType = "bottom";
+                        else if (ci instanceof Accessory) ciType = "accessory";
+
+                        // tb sa match uiasca si id-ul si tipul clothing itemului
+                        if (linkedId == ci.getItemId() && ciType.equals(linkedType)) {
+                            if (!fit.getClothes().contains(ci)) { // nu mai vreau duplicate...
+                                fit.getClothes().add(ci);
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
+
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
@@ -342,6 +376,45 @@ public class WardrobeService {
         }
         catch (Exception e){
             System.out.println("Nu s-a putut sterge tag-ul de pe item");
+            System.out.println(e.getMessage());
+        }
+    }
+
+
+    public void updateOutfitClothes(Outfit outfit, List<ClothingItem> newClothesSelection) {
+        try {
+            // 1. Wipe the old database links entirely
+            DeleteBuilder<OutfitClothingLink, Integer> deleteBuilder = outfitItemLinkDao.deleteBuilder();
+            deleteBuilder.where().eq("outfit_id", outfit.getId());
+            deleteBuilder.delete();
+
+            // 2. Clear the memory list
+            outfit.getClothes().clear();
+
+            // 3. Create the new links and add them back to memory
+            for (ClothingItem ci : newClothesSelection) {
+                String type = "";
+                if (ci instanceof Top) type = "top";
+                else if (ci instanceof Bottom) type = "bottom";
+                else if (ci instanceof Accessory) type = "accessory";
+
+                OutfitClothingLink link = new OutfitClothingLink(outfit, ci.getItemId(), type);
+                outfitItemLinkDao.create(link);
+
+                outfit.getClothes().add(ci);
+            }
+            System.out.println("Successfully updated outfit clothes.");
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void updateOutfit(Outfit outfit) {
+        try {
+            outfitDao.update(outfit);
+            System.out.println("Successfully updated outfit details in DB.");
+        } catch (SQLException e) {
+            System.err.println("Failed to update outfit in DB.");
             System.out.println(e.getMessage());
         }
     }

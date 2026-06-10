@@ -2,11 +2,13 @@ package com.example.stylesimplified.backend.controllers;
 
 import com.example.stylesimplified.backend.models.Outfit;
 import com.example.stylesimplified.backend.services.WardrobeService;
+import com.example.stylesimplified.backend.utils.OutfitNavigationContext;
 import com.example.stylesimplified.backend.utils.SceneManager;
 import com.example.stylesimplified.backend.utils.UIFactory;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -36,13 +38,10 @@ public class OutfitsController {
         for (Outfit outfit : allOutfits){
             VBox card = UIFactory.createOutfitCard(outfit);
 
+            card.setCursor(Cursor.HAND);
             card.setOnMouseClicked(e -> {
-                try {
-                    SceneManager.navigateTo(new ActionEvent(card, card), "outfit-details-view.fxml", outfit.getName() + " outfit details");
-                }
-                catch (IOException exception) {
-                    exception.printStackTrace();
-                }
+                OutfitNavigationContext context = new OutfitNavigationContext(outfit, false); // nu incepe in edit mode
+                SceneManager.navigateToWithData((Node) e.getSource(), "outfit-details-view.fxml", "Fit details", context);
             });
 
             outfitPane.getChildren().add(card);
@@ -51,7 +50,8 @@ public class OutfitsController {
 
     @FXML
     void handleAddOutfitButton(ActionEvent event) throws IOException {
-        SceneManager.navigateTo(event, "add-outfit-view.fxml", "Add outfit");
+        // desi nu trimit data neaparat catre view am facut AddutfitController ul sa fie dual si pt editare si pt add pt ca nu voiam sa scriu de 2 ori acelasi cod
+        SceneManager.navigateToWithData((Node) event.getSource(), "add-outfit-view.fxml", "Add Outfit", null);
     }
 
     @FXML

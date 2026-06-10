@@ -64,6 +64,7 @@ public class WardrobeController {
         clothingView.setPreserveRatio(true);
 
         // cand apesi pe un clothing item te duci in view mode (context are startInEditMode setat ca false)
+        clothingView.setCursor(Cursor.HAND); // face manutza aia
         clothingView.setOnMouseClicked(event -> {
             ClothingNavigationContext context = new ClothingNavigationContext(ci, false);
             SceneManager.navigateToWithData((Node) event.getSource(), "clothing-item-details-view.fxml", "Item Details", context);

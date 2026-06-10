@@ -21,4 +21,9 @@ public class AddTagCommand implements Command{
     public void undo() {
         service.removeTag(tag);
     }
+
+    @Override
+    public String getCommandText() {
+        return "Added Tag " + tag.getNume();
+    }
 }

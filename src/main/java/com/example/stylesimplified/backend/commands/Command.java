@@ -7,4 +7,5 @@ package com.example.stylesimplified.backend.commands;
 public interface Command {
     void execute();
     void undo();
+    public String getCommandText();
 }
