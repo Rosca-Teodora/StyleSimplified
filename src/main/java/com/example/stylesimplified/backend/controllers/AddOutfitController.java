@@ -39,7 +39,7 @@ public class AddOutfitController implements DataInitializable<OutfitNavigationCo
 
     @FXML private ImageView thumbnailPreview;
     @FXML private FlowPane clothesGallery;
-    @FXML private Label counterLabel, statusLabel, headerLabel; // Ensure headerLabel is fx:id'd in your FXML
+    @FXML private Label counterLabel, statusLabel, headerLabel;
     @FXML private TextField outfitNameField;
     @FXML private Button customThumbButton;
 
@@ -48,8 +48,7 @@ public class AddOutfitController implements DataInitializable<OutfitNavigationCo
     private WardrobeService service = WardrobeService.getInstance();
     private final CommandInvoker cmdInvoker = new CommandInvoker();
 
-    // The outfit being edited (Null if creating a brand new one)
-    private Outfit outfitToEdit = null;
+    private Outfit outfitToEdit = null; // outfit-ul care e editat curent
 
     @FXML
     public void initialize() {
@@ -59,25 +58,21 @@ public class AddOutfitController implements DataInitializable<OutfitNavigationCo
     @Override
     public void initData(OutfitNavigationContext context) {
         if (context != null && context.getOutfit() != null) {
-            // EDIT MODE
+            // cazul in care chiar au fost transmise date de la controller ul anterior care a facut scene change ul ceea ce duce la edit mode
             this.outfitToEdit = context.getOutfit();
             this.selectedClothes.addAll(outfitToEdit.getClothes());
-
-            // Allow name editing (Optional, but usually a good idea if they change the vibe of the outfit)
             outfitNameField.setText(outfitToEdit.getName());
             outfitNameField.setDisable(false);
 
-            // KEEP THE BUTTON VISIBLE
-            customThumbButton.setVisible(true);
+            customThumbButton.setVisible(true); // se poate schimba in continuare thumbnailul
 
-            // Show the current thumbnail as a preview
-            thumbnailPreview.setImage(new Image(new File(outfitToEdit.getImagePath()).toURI().toString()));
+            thumbnailPreview.setImage(new Image(new File(outfitToEdit.getImagePath()).toURI().toString())); // preview buton curent
             thumbnailPreview.setVisible(true);
             thumbnailPreview.setManaged(true);
 
             if (headerLabel != null) headerLabel.setText("Edit Outfit: " + outfitToEdit.getName());
         } else {
-            // CREATE MODE
+            //  simplu create mode
             outfitNameField.setDisable(false);
             customThumbButton.setVisible(true);
             if (headerLabel != null) headerLabel.setText("Create New Outfit");
@@ -94,7 +89,7 @@ public class AddOutfitController implements DataInitializable<OutfitNavigationCo
         for (ClothingItem ci : allClothes) {
             VBox clothingcard = UIFactory.createGalleryThumbnail(ci);
 
-            // If we are in edit mode, visually select the clothes that are already in the outfit
+            // daca e deja in edit mode apar selectate hainele
             if (selectedClothes.contains(ci)) {
                 clothingcard.getStyleClass().remove("gallery-item");
                 clothingcard.getStyleClass().add("gallery-item-selected");
@@ -141,20 +136,15 @@ public class AddOutfitController implements DataInitializable<OutfitNavigationCo
 
     @FXML
     private void handleSaveOutfitButton(ActionEvent event) throws IOException {
-        // --- 1. EDIT MODE SAVE FLOW ---
-        // --- 1. EDIT MODE SAVE FLOW ---
+        // salvare pt edit mode
         if (outfitToEdit != null) {
             if (outfitNameField.getText().isEmpty() || selectedClothes.isEmpty()) {
                 statusLabel.setText(selectedClothes.isEmpty() ? "Outfit must have at least one item" : "Enter an outfit name");
                 statusLabel.setTextFill(Color.RED);
                 return;
             }
-
-            // Update the name
             outfitToEdit.setName(outfitNameField.getText());
-
-            // Handle potential NEW thumbnail upload
-            if (selectedImageFile != null) {
+            if (selectedImageFile != null) { // in cazul unui upload nou de thumbnail
                 try {
                     String fileName = System.currentTimeMillis() + "-" + selectedImageFile.getName();
                     Path destinationDirectory = Paths.get("outfit_thumbnails");
@@ -162,11 +152,10 @@ public class AddOutfitController implements DataInitializable<OutfitNavigationCo
                     Path destinationPath = destinationDirectory.resolve(fileName);
                     Files.copy(selectedImageFile.toPath(), destinationPath, StandardCopyOption.REPLACE_EXISTING);
 
-                    // Update the outfit's internal path
                     outfitToEdit.setCustomThumbnailPath(destinationPath.toString());
                 } catch (Exception e) { e.printStackTrace(); }
             } else if (outfitToEdit.getImagePath().equals("wardrobe_images/default.png") && !selectedClothes.isEmpty()) {
-                // Fallback if they deleted the item that was acting as the default thumbnail
+                // fallback pt primul item ca thumbnail
                 outfitToEdit.setCustomThumbnailPath(selectedClothes.get(0).getImgPath());
             }
 
@@ -179,7 +168,7 @@ public class AddOutfitController implements DataInitializable<OutfitNavigationCo
             return;
         }
 
-        // --- 2. CREATE MODE SAVE FLOW ---
+        // save flow ul pt create simplu
         String name = outfitNameField.getText();
         String thumbnailPath = null;
 
@@ -211,7 +200,7 @@ public class AddOutfitController implements DataInitializable<OutfitNavigationCo
     @FXML
     private void handleBackButton(ActionEvent event) throws IOException {
         if (outfitToEdit != null) {
-            // If we were editing, go back to the details page
+            // daca editam go back to details page
             OutfitNavigationContext context = new OutfitNavigationContext(outfitToEdit, true);
             SceneManager.navigateToWithData((Node) event.getSource(), "outfit-details-view.fxml", outfitToEdit.getName(), context);
         } else {

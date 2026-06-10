@@ -136,18 +136,18 @@ public class TagsController {
 
                 if (!newName.isEmpty() && newName.length() <= 50) {
                     tag.setNume(newName); // update the object
-                    Command updateTag = new UpdateTagCommand(service, tag); // save to Database
+                    Command updateTag = new UpdateTagCommand(service, tag); // save to DB
                     invoker.executeCommand(updateTag);
                 }
 
                 isEditing[0] = false;
-                renderTags(); // Redraws the screen, turning it back into a normal Label!
+                renderTags(); // refreshul paginii
             }
         });
 
         // hit enter and save :)
         editField.setOnAction(e -> {
-            editBtn.fire(); // Simulates a click on the edit button to trigger the save logic above
+            editBtn.fire(); // save logic fired
         });
 
         String heartIconPath = tag.getFavourite() ? "filled_heart_icon.png" : "empty_heart_icon.png";

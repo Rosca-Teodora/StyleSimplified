@@ -44,7 +44,7 @@ public class AddItemController {
     @FXML private ImageView imagePreview;
     private File selectedImageFile = null; // remembers file chosen
 
-    // Top specific fields
+    // field-uri specifice bluzelor
     @FXML
     private AnchorPane topInputsContainer;
     @FXML
@@ -54,7 +54,7 @@ public class AddItemController {
     @FXML
     private ToggleButton isOuterwearInput;
 
-    // Bottom specific fields
+    // field-uri specifice pantalonilor
     @FXML
     private AnchorPane bottomInputsContainer;
     @FXML
@@ -64,7 +64,7 @@ public class AddItemController {
     @FXML
     private TextField lengthInput;
 
-    // Accessory specific fields
+    // field-uri specifice accesoriilor
     @FXML
     private AnchorPane accessoryInputsContainer;
     @FXML
