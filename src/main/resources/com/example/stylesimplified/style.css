@@ -57,7 +57,9 @@
 .pane, .tag {
     -fx-border-color: #D1D1D1;
     -fx-border-radius: 10px;
-    -fx-background-color: #F8F9FA; /* Slightly lighter than root to make cards pop */
+    -fx-background-radius: 10px;
+    -fx-background-color: #F8F9FA;
+    -fx-background-insets: 0;
 }
 
 /* Scroll Panes */

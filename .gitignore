@@ -13,7 +13,7 @@ httpRequests/
 /target/
 
 audit_log.csv
-outfit_thumbnails/*
+outfit_thumbnails/
 
 # compiled class files and archives
 *.class

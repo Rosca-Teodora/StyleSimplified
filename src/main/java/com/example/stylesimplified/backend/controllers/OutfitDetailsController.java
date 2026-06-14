@@ -45,13 +45,13 @@ public class OutfitDetailsController implements DataInitializable<OutfitNavigati
         pinterestBoard.getChildren().clear();
         anatomicalSlots.clear();
 
-        String[] requiredSlots = {
-                "1,0", // Center-Head
-                "1,1", // Center-Torso (Tops)
-                "0,1", // Left-Torso (Hands/Wrists)
-                "2,1", // Right-Torso
-                "1,2", // Center-Legs (Bottoms)
-                "1,3"  // Center-Feet
+        String[] requiredSlots = { // helper de pozitie
+                "1,0", // center-head
+                "1,1", // center-torso ( pt Tops)
+                "0,1", // left-torso (pt Hands/Wrists)
+                "2,1", // right-torso
+                "1,2", // center-legs (pt Bottoms)
+                "1,3"  // center-feet
         };
 
         for (String slot : requiredSlots) {
@@ -59,7 +59,7 @@ public class OutfitDetailsController implements DataInitializable<OutfitNavigati
             int col = Integer.parseInt(coords[0]);
             int row = Integer.parseInt(coords[1]);
 
-            // Set up the FlowPane for side-by-side duplicates
+            // flow pane setup pt tipurile de haine din acelasi tip care satu una dupa alta
             FlowPane cellPane = new FlowPane();
             cellPane.setAlignment(javafx.geometry.Pos.CENTER);
             cellPane.setHgap(15.0);
@@ -83,7 +83,7 @@ public class OutfitDetailsController implements DataInitializable<OutfitNavigati
             else if (item instanceof Bottom) slotKey = "1,2";
             else if (item instanceof Accessory) {
                 String placement = ((Accessory) item).getPlacement().toLowerCase();
-                switch (placement) {
+                switch (placement) { // astea sunt hardcodate momentan, canda o sa schimb modalitate de introducere a pozitiei unei accesorii
                     case "head": slotKey = "1,0"; break;
                     case "feet": slotKey = "1,3"; break;
                     case "hands/wrists": slotKey = "0,1"; break;
@@ -98,7 +98,7 @@ public class OutfitDetailsController implements DataInitializable<OutfitNavigati
 
     @FXML
     void handleEditMode(ActionEvent event) {
-        // Transition completely to the dedicated Add/Edit Outfit View
+        // tranzitie la outfit view
         OutfitNavigationContext context = new OutfitNavigationContext(currentOutfit, true);
         SceneManager.navigateToWithData((Node) event.getSource(), "add-outfit-view.fxml", "Edit Outfit", context);
     }
