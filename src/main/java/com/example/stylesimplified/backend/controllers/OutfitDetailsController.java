@@ -46,12 +46,12 @@ public class OutfitDetailsController implements DataInitializable<OutfitNavigati
         anatomicalSlots.clear();
 
         String[] requiredSlots = { // helper de pozitie
-                "1,0", // Center-Head
-                "1,1", // Center-Torso (Tops)
-                "0,1", // Left-Torso (Hands/Wrists)
-                "2,1", // Right-Torso
-                "1,2", // Center-Legs (Bottoms)
-                "1,3"  // Center-Feet
+                "1,0", // center-head
+                "1,1", // center-torso ( pt Tops)
+                "0,1", // left-torso (pt Hands/Wrists)
+                "2,1", // right-torso
+                "1,2", // center-legs (pt Bottoms)
+                "1,3"  // center-feet
         };
 
         for (String slot : requiredSlots) {
