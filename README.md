@@ -8,6 +8,7 @@ A simple and elegant desktop application built with JavaFX to help you digitize 
 
 - [About The Project](#about-the-project)
 - [Application Showcase](#application-showcase)
+- [Architectural Design](#architectural-design)
 - [Features](#features)
 - [Built With](#built-with)
 - [Getting Started](#getting-started)
@@ -89,6 +90,44 @@ You can rename existing tags to keep your organization system consistent.
 
 #### Favoriting a Tag
 You can mark tags as "favorites," which can be used in the future to prioritize them in search or filter operations.
+
+## Architectural Design
+
+The application is built on a foundation of core Object-Oriented Programming (OOP) principles and established design patterns to ensure the codebase is modular, scalable, and easy to maintain.
+
+### Core OOP Principles
+
+- **Encapsulation:** Data (attributes) and the methods that operate on that data are bundled together within classes. Attributes are kept `private`, and access is controlled through public methods (`getters` and `setters`), preventing direct, uncontrolled modification. This is seen in all model classes like `ClothingItem`, `Outfit`, and `Tag`.
+- **Inheritance:** A class hierarchy is used to model the relationships between different types of clothing. `Top`, `Bottom`, and `Accessory` are specialized classes that inherit common properties and behaviors from a general `ClothingItem` base class. This promotes code reuse and establishes a clear "is-a" relationship.
+- **Polymorphism:** The application leverages polymorphism to treat different types of clothing items uniformly. For example, the wardrobe gallery can hold a collection of `ClothingItem` objects, which can be instances of `Top`, `Bottom`, or `Accessory` at runtime. This simplifies management and rendering of different item types.
+- **Abstraction:** The `ClothingItem` class is `abstract`, defining a common contract that all specific clothing types must follow, while hiding the complex implementation details of each one. This reduces complexity and allows the system to work with the general concept of a "clothing item" without needing to know the specifics of every type.
+
+### Design Patterns
+
+- **Model-View-Controller (MVC):** This is the core architectural pattern used to structure the entire application.
+    - **Model:** The data layer, consisting of classes like `ClothingItem`, `Outfit`, and `Tag`. It represents the state of the application.
+    - **View:** The presentation layer, defined by the `.fxml` files and styled with `.css`. It is responsible for everything the user sees.
+    - **Controller:** The logic layer (`AddItemController`, `WardrobeController`, etc.) that handles user input from the View and manipulates the Model.
+    - **Benefit:** This separation makes the code highly organized and decoupled. Changes to the UI (View) do not require changes to the business logic (Model), and vice-versa, making development and debugging significantly easier.
+
+- **Singleton Pattern:**
+    - **Usage:** This pattern is used multiple times to ensure a single, globally accessible instance for critical services. It is implemented in:
+        - `DatabaseManager`: To manage a single database connection pool for the entire application.
+        - `WardrobeService`: To provide a centralized point for all wardrobe-related business logic.
+        - `AuditService`: To handle all action logging through one instance, preventing file access conflicts.
+    - **Benefit:** This prevents the creation of multiple, conflicting instances of services that manage shared resources (like database connections or files), ensuring consistent state and behavior.
+
+- **Factory Pattern:**
+    - **Usage:** The `UIFactory` class is an explicit implementation of this pattern. It provides static methods to create complex, pre-styled UI components like image buttons and gallery thumbnails (`createButton`, `createGalleryThumbnail`).
+    - **Benefit:** This encapsulates the complex logic of UI element creation. Instead of duplicating styling and layout code across multiple controllers, the application can now create consistent UI components with a single method call, making the code much cleaner and easier to maintain.
+
+- **Command Pattern:**
+    - **Usage:** Actions like adding a new clothing item are encapsulated in a `Command` object (`AddClothingCommand`). A `CommandInvoker` is responsible for executing these commands.
+    - **Benefit:** This decouples the object that invokes an operation from the object that knows how to perform it. It makes the code cleaner and, more importantly, lays the groundwork for easily implementing features like **Undo/Redo** functionality in the future.
+
+- **Utility Classes:**
+    - **Usage:** The `SceneManager` class is a prime example. It is a `final` class with a private constructor and only provides `static` methods for handling a common, repeatable task: navigating between different scenes.
+    - **Benefit:** This prevents code duplication across controllers. Instead of every controller having its own `navigateTo` method, they can all call the centralized, reusable `SceneManager.navigateTo()` method, which simplifies development and ensures navigation logic is consistent.
 
 ## Features
 
